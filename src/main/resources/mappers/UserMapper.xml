@@ -24,7 +24,7 @@
         r.id as r_id, r.name as r_name, r.name_zh as r_name_zh
         from user u
         left join user_role ur on u.id = ur.uid left join role r on r.id = ur.rid
-        where u.id = #{userId}
+        where u.username = #{username}
     </select>
 
 </mapper>
