@@ -1,11 +1,14 @@
 package com.jxcia.pt.security;
 
+import cn.hutool.crypto.digest.MD5;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jxcia.pt.common.Constant;
 import com.jxcia.pt.dto.req.LoginReq;
 import com.jxcia.pt.security.exception.CaptchaException;
 import com.jxcia.pt.utils.RedisUtil;
 import lombok.SneakyThrows;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,7 +38,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         // 解析json参数
         LoginReq loginReq = new ObjectMapper().readValue(request.getInputStream(), LoginReq.class);
         String username = loginReq.getUsername();
-        String password = loginReq.getPassword();
+        System.out.println(loginReq.getPassword());
+        // 前端使用Base64加密，后端解码
+        String password = new String(Base64.decodeBase64(loginReq.getPassword().getBytes()));
+
         String code = loginReq.getCode();
         String userKey = loginReq.getUserKey();
 
