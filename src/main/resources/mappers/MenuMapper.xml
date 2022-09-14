@@ -6,6 +6,8 @@
     <resultMap id="MenuResultMap" type="Menu">
         <id property="id" column="id" />
         <result property="pattern" column="pattern" />
+        <result column="updated_at" property="updatedAt"/>
+        <result column="is_deleted" property="isDeleted"/>
         <collection property="roles" ofType="Role">
             <id column="r_id" property="id" />
             <result column="r_name" property="name" />
@@ -14,12 +16,12 @@
     </resultMap>
 
     <select id="getAllMenu" resultMap="MenuResultMap">
-        select m.id, m.pattern, r.id as r_id, r.name as r_name, r.name_zh as r_name_zh
+     select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted, r.id as r_id, r.name as r_name, r.name_zh as r_name_zh
         from menu m left join menu_role mr on m.id = mr.mid left join role r on r.id = mr.rid
     </select>
 
     <select id="getMenuById" resultMap="MenuResultMap">
-        select m.id, m.pattern, r.id as r_id, r.name as r_name, r.name_zh as r_name_zh
+        select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted, r.id as r_id, r.name as r_name, r.name_zh as r_name_zh
         from menu m left join menu_role mr on m.id = mr.mid left join role r on r.id = mr.rid
         where m.id = #{id}
     </select>

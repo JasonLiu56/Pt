@@ -6,12 +6,14 @@
     <resultMap id="UserResultMap" type="User">
         <id property="id" column="id" />
         <result property="username" column="username" />
+        <result property="nickname" column="nickname" />
         <result property="password" column="password" />
         <result property="enabled" column="enabled" />
         <result column="account_non_expired" property="accountNonExpired" />
         <result column="account_non_locked" property="accountNonLocked" />
         <result column="credentials_non_expired" property="credentialsNonExpired" />
-
+        <result column="updated_at" property="updatedAt"/>
+        <result column="is_deleted" property="isDeleted"/>
         <collection property="roles" ofType="Role">
             <id column="r_id" property="id" />
             <result column="r_name" property="name" />
@@ -19,8 +21,8 @@
         </collection>
     </resultMap>
 
-    <select id="loadUserByUserId" resultMap="UserResultMap">
-        select u.id, u.username, u.password, u.enabled, u.account_non_expired, u.account_non_locked, u.credentials_non_expired,
+    <select id="loadUserByUsername" resultMap="UserResultMap">
+        select u.id, u.username, u.nickname, u.password, u.enabled, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.updated_at, u.is_deleted,
         r.id as r_id, r.name as r_name, r.name_zh as r_name_zh
         from user u
         left join user_role ur on u.id = ur.uid left join role r on r.id = ur.rid

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
-    // 根据userId获取User
-    User loadUserByUserId(String username);
+    // 根据username获取User
+    User loadUserByUsername(String username);
 
 }
