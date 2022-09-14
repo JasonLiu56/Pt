@@ -9,12 +9,10 @@ import com.jxcia.pt.utils.RedisUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -32,6 +30,9 @@ public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         if (authentication != null) {
@@ -40,7 +41,33 @@ public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
 
         // 获取jwtToken
         String jwt = request.getHeader(jwtUtil.getHeader());
+        Claims claims = null;
 
+        try {
+            claims = this.validate(jwt);
+        } catch (JwtTokenException e) {
+            jwtAuthenticationEntryPoint.commence(request, response, e);
+        }
+
+        // errorMessage
+        String errorMessage = "退出成功";
+        // 删除redis中的缓存数据
+        if (redisUtil.hhasItem(Constant.USER_KEY, claims.getSubject())) {
+            redisUtil.hdel(Constant.USER_KEY, claims.getSubject());
+        } else {
+            errorMessage = "处于退出状态，请不要重复退出";
+        }
+
+        response.setContentType("application/json;charset=UTF-8");
+        ServletOutputStream outputStream = response.getOutputStream();
+
+        Result result = errorMessage.equals("退出成功") ? Result.succ(errorMessage) : Result.fail(errorMessage);
+        outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    private Claims validate(String jwt) throws JwtTokenException {
         // jwt token为空
         if (ObjectUtils.isEmpty(jwt)) {
             throw new JwtTokenException("token为空");
@@ -55,18 +82,7 @@ public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
             throw new JwtTokenException("token 已过期");
         }
 
-        // 删除redis中的缓存数据
-        if (redisUtil.hhasItem(Constant.USER_KEY, claims.getSubject())) {
-            redisUtil.hdel(Constant.USER_KEY, claims.getSubject());
-        }
-
-        response.setContentType("application/json;charset=UTF-8");
-        ServletOutputStream outputStream = response.getOutputStream();
-
-        Result result = Result.succ("退出成功");
-        outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
-        outputStream.flush();
-        outputStream.close();
+        return claims;
     }
 
 }

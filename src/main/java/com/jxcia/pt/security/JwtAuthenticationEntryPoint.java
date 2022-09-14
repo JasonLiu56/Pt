@@ -2,9 +2,9 @@ package com.jxcia.pt.security;
 
 import cn.hutool.json.JSONUtil;
 import com.jxcia.pt.common.Result;
+import com.jxcia.pt.security.exception.JwtTokenException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -23,7 +23,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         ServletOutputStream outputStream = response.getOutputStream();
 
-        Result result = Result.fail("请先登录");
+        String errorMessage = "请先登录";
+        if (e instanceof JwtTokenException) {
+            errorMessage = e.getMessage();
+        }
+        Result result = Result.fail(errorMessage);
 
         outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
         outputStream.flush();

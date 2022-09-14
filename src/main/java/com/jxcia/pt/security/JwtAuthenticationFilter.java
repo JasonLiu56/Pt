@@ -35,18 +35,38 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws AuthenticationException, IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String jwt = request.getHeader(jwtUtil.getHeader());
         if (StringUtils.isEmpty(jwt)) {
             chain.doFilter(request, response);
             return;
         }
 
+        String username = null;
+        try {
+            username = this.validate(jwt);
+        } catch (JwtTokenException e) {
+            jwtAuthenticationEntryPoint.commence(request, response, e);
+        }
+
+        // 从redis中获取数据
+        User user = (User) redisUtil.hget(Constant.USER_KEY, username);
+
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(token);
+
+        chain.doFilter(request, response);
+    }
+
+    private String validate(String jwt) throws JwtTokenException {
         Claims claims = jwtUtil.getClaimsByToken(jwt);
         if (ObjectUtils.isEmpty(claims)) {
             throw new JwtTokenException("token异常");
@@ -64,13 +84,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             throw new JwtTokenException("请先登录");
         }
 
-        // 从redis中获取数据
-        User user = (User) redisUtil.hget(Constant.USER_KEY, username);
-
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(token);
-
-        chain.doFilter(request, response);
+        return username;
     }
 
 }
