@@ -1,25 +1,19 @@
 package com.jxcia.pt.security;
 
 
-import cn.hutool.core.util.StrUtil;
 import com.jxcia.pt.common.Constant;
 import com.jxcia.pt.entity.User;
 import com.jxcia.pt.security.exception.JwtTokenException;
-import com.jxcia.pt.service.impl.UserServiceImpl;
 import com.jxcia.pt.utils.JwtUtil;
 import com.jxcia.pt.utils.RedisUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -55,6 +49,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             username = this.validate(jwt);
         } catch (JwtTokenException e) {
             jwtAuthenticationEntryPoint.commence(request, response, e);
+            return;
         }
 
         // 从redis中获取数据

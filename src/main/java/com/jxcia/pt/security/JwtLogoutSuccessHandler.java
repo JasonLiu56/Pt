@@ -47,12 +47,13 @@ public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
             claims = this.validate(jwt);
         } catch (JwtTokenException e) {
             jwtAuthenticationEntryPoint.commence(request, response, e);
+            return;
         }
 
         // errorMessage
         String errorMessage = "退出成功";
         // 删除redis中的缓存数据
-        if (redisUtil.hhasItem(Constant.USER_KEY, claims.getSubject())) {
+        if (!ObjectUtils.isEmpty(claims) && redisUtil.hhasItem(Constant.USER_KEY, claims.getSubject())) {
             redisUtil.hdel(Constant.USER_KEY, claims.getSubject());
         } else {
             errorMessage = "处于退出状态，请不要重复退出";
