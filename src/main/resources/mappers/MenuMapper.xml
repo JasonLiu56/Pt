@@ -17,14 +17,26 @@
         </collection>
     </resultMap>
 
-    <select id="getAllMenu" resultMap="MenuResultMap">
+    <insert id="insert" useGeneratedKeys="true">
+        insert menu(pattern) values(#{pattern});
+    </insert>
+
+    <update id="update">
+        update menu set pattern = #{pattern}, updated_at = now() where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="delete">
+        update menu set is_deleted = 1, updated_at = now() where id = #{id};
+    </update>
+
+    <select id="getAll" resultMap="MenuResultMap">
      select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted,
      r.id as r_id, r.name as r_name, r.name_zh as r_name_zh, r.updated_at as r_updated_at, r.is_deleted as r_is_deleted
         from menu m left join menu_role mr on m.id = mr.mid left join role r on r.id = mr.rid
         where m.is_deleted = 0 and mr.is_deleted = 0 and r.is_deleted = 0;
     </select>
 
-    <select id="getMenuById" resultMap="MenuResultMap">
+    <select id="getById" resultMap="MenuResultMap">
      select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted,
      r.id as r_id, r.name as r_name, r.name_zh as r_name_zh, r.updated_at as r_updated_at, r.is_deleted as r_is_deleted
         from menu m left join menu_role mr on m.id = mr.mid left join role r on r.id = mr.rid

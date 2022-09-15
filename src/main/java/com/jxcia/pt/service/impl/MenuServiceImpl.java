@@ -15,13 +15,28 @@ public class MenuServiceImpl implements MenuService {
     private MenuMapper menuMapper;
 
     @Override
-    public List<Menu> getAllMenu() {
-        return menuMapper.getAllMenu();
+    public List<Menu> getAll() {
+        return menuMapper.getAll();
     }
 
     @Override
-    public Menu getMenuById(Integer id) {
-        return menuMapper.getMenuById(id);
+    public Menu getById(Integer id) {
+        return menuMapper.getById(id);
+    }
+
+    @Override
+    public Boolean insert(String pattern) {
+        return menuMapper.insert(pattern);
+    }
+
+    @Override
+    public Boolean update(Integer id, String pattern) {
+        return menuMapper.update(id, pattern);
+    }
+
+    @Override
+    public Boolean delete(Integer id) {
+        return menuMapper.delete(id);
     }
 
 }

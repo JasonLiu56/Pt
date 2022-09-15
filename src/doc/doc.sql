@@ -1,7 +1,7 @@
 # 菜单表
 create table menu (
     id int(11) not null primary key auto_increment,
-    pattern varchar(128) default null,
+    pattern varchar(128) default null unique,
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0
 )engine=InnoDB default charset=utf8;
@@ -9,8 +9,8 @@ create table menu (
 # 角色表
 create table role (
     id int(11) not null primary key auto_increment,
-    name varchar(32) not null,
-    name_zh varchar(32) not null,
+    name varchar(32) not null unique,
+    name_zh varchar(32) not null unique,
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0
 )engine=InnoDB default charset=utf8;
