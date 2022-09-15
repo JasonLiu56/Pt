@@ -4,6 +4,7 @@ package com.jxcia.pt.security;
 import cn.hutool.json.JSONUtil;
 import com.jxcia.pt.common.Result;
 import com.jxcia.pt.security.exception.CaptchaException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Component
+@Slf4j
 public class LoginFailureHandler implements AuthenticationFailureHandler {
     
     @Override
@@ -27,6 +29,8 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         if (e instanceof CaptchaException) {
             errorMessage = e.getMessage();
         }
+
+        log.error(errorMessage);
 
         Result result = Result.fail(errorMessage);
         outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));

@@ -3,6 +3,7 @@ package com.jxcia.pt.security;
 import cn.hutool.json.JSONUtil;
 import com.jxcia.pt.common.Result;
 import com.jxcia.pt.security.exception.JwtTokenException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Component
+@Slf4j
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
@@ -28,6 +30,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             errorMessage = e.getMessage();
         }
         Result result = Result.fail(errorMessage);
+        log.info("security异常:{}", errorMessage);
 
         outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
         outputStream.flush();

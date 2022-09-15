@@ -7,6 +7,7 @@ import com.jxcia.pt.security.exception.JwtTokenException;
 import com.jxcia.pt.utils.JwtUtil;
 import com.jxcia.pt.utils.RedisUtil;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Component
+@Slf4j
 public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Autowired
@@ -62,7 +64,15 @@ public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setContentType("application/json;charset=UTF-8");
         ServletOutputStream outputStream = response.getOutputStream();
 
-        Result result = errorMessage.equals("退出成功") ? Result.succ(errorMessage) : Result.fail(errorMessage);
+        Result result = null;
+        if (errorMessage.equals("退出成功")) {
+            result = Result.succ(errorMessage);
+            log.info("{}" + errorMessage, claims.getSubject());
+        } else {
+            Result.fail(errorMessage);
+            log.error("{}" + errorMessage, claims.getSubject());
+        }
+
         outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
         outputStream.flush();
         outputStream.close();

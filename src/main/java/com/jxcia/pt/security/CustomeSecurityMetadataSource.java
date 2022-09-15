@@ -5,6 +5,7 @@ import com.jxcia.pt.entity.Menu;
 import com.jxcia.pt.entity.Role;
 import com.jxcia.pt.service.MenuService;
 import com.jxcia.pt.utils.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -17,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
+@Slf4j
 public class CustomeSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     @Autowired
@@ -35,11 +37,13 @@ public class CustomeSecurityMetadataSource implements FilterInvocationSecurityMe
         // 如果menu在redis中存在直接从redis中读取数据
         if (redisUtil.hasKey(Constant.MENU_KEY)) {
             allMenu = (List<Menu>) redisUtil.get(Constant.MENU_KEY);
+            log.info("从redis中获取menu数据");
         } else {
             // 从数据库中查询
             allMenu = menuService.getAllMenu();
             // 存储到redis
             redisUtil.set(Constant.MENU_KEY, allMenu);
+            log.info("从数据库获取menu数据并存入redis");
         }
 
         for (Menu menu : allMenu) {

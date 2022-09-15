@@ -8,6 +8,7 @@ import com.jxcia.pt.dto.req.LoginReq;
 import com.jxcia.pt.security.exception.CaptchaException;
 import com.jxcia.pt.utils.RedisUtil;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Slf4j
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Autowired
@@ -32,6 +34,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         if (!request.getMethod().equals("POST")) {
+            log.error("认证方法不支持: {}", request.getMethod());
             throw new AuthenticationServiceException("认证方法不支持: " + request.getMethod());
         }
 

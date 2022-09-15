@@ -2,6 +2,7 @@ package com.jxcia.pt.security;
 
 import cn.hutool.json.JSONUtil;
 import com.jxcia.pt.common.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Component
+@Slf4j
 public class JwtAccessDeniedHandlder implements AccessDeniedHandler {
 
     @Override
@@ -23,6 +25,7 @@ public class JwtAccessDeniedHandlder implements AccessDeniedHandler {
         ServletOutputStream outputStream = response.getOutputStream();
 
         Result result = Result.fail("没有权限操作");
+        log.error("没有权限操作");
 
         outputStream.write(JSONUtil.toJsonStr(result).getBytes(StandardCharsets.UTF_8));
         outputStream.flush();
