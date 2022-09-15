@@ -1,7 +1,5 @@
 package com.jxcia.pt.security;
 
-import cn.hutool.crypto.digest.MD5;
-import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jxcia.pt.common.Constant;
 import com.jxcia.pt.dto.req.LoginReq;

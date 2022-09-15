@@ -1,7 +1,6 @@
 package com.jxcia.pt.service;
 
 import com.jxcia.pt.entity.Role;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -9,6 +8,12 @@ public interface RoleService {
 
     // 新增
     Boolean insert(String name, String nameZh);
+
+    // 通过name或nameZh判断是否存在同名的角色
+    Boolean isExist(String name, String nameZh);
+
+    // 通过id来判断是否存在角色
+    Boolean isExist(Integer id);
 
     // 删除
     Boolean delete(Integer id);

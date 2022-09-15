@@ -12,7 +12,7 @@
     </update>
 
     <update id="delete">
-        update role set is_deleted = 1 where id = #{id};
+        update role set is_deleted = 1 where id = #{id} and is_deleted = 0;
     </update>
 
     <select id="getById" resultType="Role">
@@ -33,5 +33,15 @@
             </if>
         </where>
     </select>
+
+    <select id="isExistByNameOrNameZh" resultType="java.lang.Boolean">
+        select count(1) from role where is_deleted = 0 and (name = #{name} or name_zh = #{nameZh})
+    </select>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from role where is_deleted = 0 and id = #{id};
+    </select>
+
+
 
 </mapper>

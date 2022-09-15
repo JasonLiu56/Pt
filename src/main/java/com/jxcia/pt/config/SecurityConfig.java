@@ -1,6 +1,7 @@
 package com.jxcia.pt.config;
 
 import com.jxcia.pt.security.*;
+import com.jxcia.pt.service.UserService;
 import com.jxcia.pt.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/login",
             "/logout",
             "/captcha",
-            "/favicon.ico"
+            "/favicon.ico",
+            "/swagger-ui.html"
     };
 
     @Bean
@@ -82,11 +84,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         loginFilter.setAuthenticationFailureHandler(loginFailureHandler);
         return loginFilter;
     }
-
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

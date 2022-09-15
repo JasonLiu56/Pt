@@ -12,6 +12,12 @@ public interface RoleMapper {
     // 新增
     Boolean insert(@Param("name") String name, @Param("nameZh") String nameZh);
 
+    // 判断角色是否存在
+    Boolean isExistByNameOrNameZh(@Param("name") String name, @Param("nameZh") String nameZh);
+
+    // 通过id判断角色是否存在
+    Boolean isExistById(@Param("id") Integer id);
+
     // 删除
     Boolean delete(@Param("id") Integer id);
 
