@@ -12,18 +12,23 @@
             <id column="r_id" property="id" />
             <result column="r_name" property="name" />
             <result column="r_name_zh" property="nameZh" />
+            <result column="r_updated_at" property="updatedAt"/>
+            <result column="r_is_deleted" property="isDeleted"/>
         </collection>
     </resultMap>
 
     <select id="getAllMenu" resultMap="MenuResultMap">
-     select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted, r.id as r_id, r.name as r_name, r.name_zh as r_name_zh
+     select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted,
+     r.id as r_id, r.name as r_name, r.name_zh as r_name_zh, r.updated_at as r_updated_at, r.is_deleted as r_is_deleted
         from menu m left join menu_role mr on m.id = mr.mid left join role r on r.id = mr.rid
+        where m.is_deleted = 0 and mr.is_deleted = 0 and r.is_deleted = 0;
     </select>
 
     <select id="getMenuById" resultMap="MenuResultMap">
-        select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted, r.id as r_id, r.name as r_name, r.name_zh as r_name_zh
+     select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted,
+     r.id as r_id, r.name as r_name, r.name_zh as r_name_zh, r.updated_at as r_updated_at, r.is_deleted as r_is_deleted
         from menu m left join menu_role mr on m.id = mr.mid left join role r on r.id = mr.rid
-        where m.id = #{id}
+        where m.id = #{id} and m.is_deleted = 0 and mr.is_deleted = 0 and r.is_deleted = 0;
     </select>
 
 </mapper>
