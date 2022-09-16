@@ -18,6 +18,9 @@ public interface RoleMapper {
     // 通过id判断角色是否存在
     Boolean isExistById(@Param("id") Integer id);
 
+    // 判断角色是否存在(同时不是自身)
+    Boolean isExistByNotIdAndNameOrNameZh(@Param("id") Integer id, @Param("name") String name, @Param("nameZh") String nameZh);
+
     // 删除
     Boolean delete(@Param("id") Integer id);
 

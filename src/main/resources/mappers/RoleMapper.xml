@@ -31,6 +31,7 @@
             <if test="nameZh != null">
                 and name_zh like '%${nameZh}%'
             </if>
+            order by updated_at desc
         </where>
     </select>
 
@@ -42,6 +43,8 @@
         select count(1) from role where is_deleted = 0 and id = #{id};
     </select>
 
-
+    <select id="isExistByNotIdAndNameOrNameZh" resultType="java.lang.Boolean">
+        select count(1) from role where id != #{id} and is_deleted = 0 and (name = #{name} or name_zh = #{nameZh})
+    </select>
 
 </mapper>

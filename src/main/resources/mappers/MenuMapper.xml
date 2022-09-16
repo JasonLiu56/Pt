@@ -17,8 +17,12 @@
         </collection>
     </resultMap>
 
-    <insert id="insert" useGeneratedKeys="true">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert menu(pattern) values(#{pattern});
+    </insert>
+
+    <insert id="insertMenuRole" useGeneratedKeys="true">
+        insert menu_role(mid, rid) values(#{menuId}, #{roleId});
     </insert>
 
     <update id="update">
@@ -26,14 +30,24 @@
     </update>
 
     <update id="delete">
-        update menu set is_deleted = 1, updated_at = now() where id = #{id};
+        update menu set is_deleted = 1, updated_at = now() where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="deleteMenuRole">
+        update menu_role set is_deleted = 1, updated_at = now() where mid = #{menuId} and is_deleted = 0;
     </update>
 
     <select id="getAll" resultMap="MenuResultMap">
      select m.id as id, m.pattern as pattern, m.updated_at as updated_at, m.is_deleted as is_deleted,
      r.id as r_id, r.name as r_name, r.name_zh as r_name_zh, r.updated_at as r_updated_at, r.is_deleted as r_is_deleted
         from menu m left join menu_role mr on m.id = mr.mid left join role r on r.id = mr.rid
-        where m.is_deleted = 0 and mr.is_deleted = 0 and r.is_deleted = 0;
+        <where>
+            m.is_deleted = 0 and mr.is_deleted = 0 and r.is_deleted = 0
+            <if test="pattern != null">
+                and pattern like '%${pattern}%'
+            </if>
+            order by m.updated_at desc
+        </where>
     </select>
 
     <select id="getById" resultMap="MenuResultMap">
@@ -41,6 +55,18 @@
      r.id as r_id, r.name as r_name, r.name_zh as r_name_zh, r.updated_at as r_updated_at, r.is_deleted as r_is_deleted
         from menu m left join menu_role mr on m.id = mr.mid left join role r on r.id = mr.rid
         where m.id = #{id} and m.is_deleted = 0 and mr.is_deleted = 0 and r.is_deleted = 0;
+    </select>
+
+    <select id="isExistByPattern" resultType="java.lang.Boolean">
+        select count(1) from menu where pattern = #{pattern} and is_deleted = 0;
+    </select>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from menu where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByNotIdAndPattern" resultType="java.lang.Boolean">
+        select count(1) from menu where id != #{id} and pattern = #{pattern} and is_deleted = 0;
     </select>
 
 </mapper>

@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "通过id获取角色请求体")
-public class RoleGetByIdReq {
+@ApiModel(value = "删除菜单请求体")
+public class MenuDeleteReq {
 
-    @ApiModelProperty(value = "角色id", notes = "角色id")
+    @ApiModelProperty(value = "菜单id列表", notes = "菜单id列表")
     private Integer id;
 
 }

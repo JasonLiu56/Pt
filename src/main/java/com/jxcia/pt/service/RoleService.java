@@ -15,6 +15,9 @@ public interface RoleService {
     // 通过id来判断是否存在角色
     Boolean isExist(Integer id);
 
+    // 通过name或者nameZh判断是否存在同名的角色(除开自己)
+    Boolean isExist(Integer id, String name, String nameZh);
+
     // 删除
     Boolean delete(Integer id);
 

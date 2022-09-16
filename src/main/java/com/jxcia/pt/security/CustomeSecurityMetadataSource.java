@@ -40,7 +40,7 @@ public class CustomeSecurityMetadataSource implements FilterInvocationSecurityMe
             log.info("从redis中获取menu数据");
         } else {
             // 从数据库中查询
-            allMenu = menuService.getAll();
+            allMenu = menuService.getAll(null);
             // 存储到redis
             redisUtil.set(Constant.MENU_KEY, allMenu);
             log.info("从数据库获取menu数据并存入redis");

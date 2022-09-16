@@ -95,6 +95,12 @@ public class RoleController {
             return Result.fail("待更新角色不存在");
         }
 
+        // 判断修改的角色是否已经存在
+        if (roleService.isExist(roleUpdateReq.getId(), roleUpdateReq.getName(), roleUpdateReq.getNameZh())) {
+            log.error("待更新角色已经存在 id:{} name:{} nameZh:{}", roleUpdateReq.getId(), roleUpdateReq.getName(), roleUpdateReq.getNameZh());
+            return Result.fail("待更新角色已经存在");
+        }
+
         // 更新角色
         Boolean flag = roleService.update(roleUpdateReq.getId(), roleUpdateReq.getName(), roleUpdateReq.getNameZh());
 
@@ -108,7 +114,7 @@ public class RoleController {
     }
 
     @ApiOperation(value = "通过id获取角色信息")
-    @GetMapping("/getById")
+    @PostMapping("/getById")
     public Result getById(@RequestBody RoleGetByIdReq roleGetByIdReq) throws Exception {
         // 参数检查
         if (ObjectUtils.isEmpty(roleGetByIdReq.getId())) {
@@ -116,23 +122,25 @@ public class RoleController {
             return Result.fail("查询角色参数为空");
         }
 
+        // 查询是否存在
+        if (!roleService.isExist(roleGetByIdReq.getId())) {
+            log.error("查询角色不存在 id:{}", roleGetByIdReq.getId());
+            return Result.fail("查询角色不存在");
+        }
+
         // 通过id查询
         Role role = roleService.getById(roleGetByIdReq.getId());
+        log.info("通过id获取角色 id:{}", roleGetByIdReq.getId());
 
         return Result.succ(role);
     }
 
     @ApiOperation(value = "获取所有角色")
-    @GetMapping("/getAll")
+    @PostMapping("/getAll")
     public Result getAll(@RequestBody RoleGetAllReq roleGetAllReq) throws Exception {
-        // 参数检查
-        if (StringUtils.isEmpty(roleGetAllReq.getName()) || StringUtils.isEmpty(roleGetAllReq.getNameZh())) {
-            log.error("查询所有参数为空 name:{} nameZh: {}", roleGetAllReq.getName(), roleGetAllReq.getNameZh());
-            return Result.fail("查询所有参数为空");
-        }
-
         // 查询所有
         List<Role> roles = roleService.getAll(roleGetAllReq.getName(), roleGetAllReq.getNameZh());
+        log.info("获取所有角色 params:{}", roleGetAllReq);
 
         return Result.succ(roles);
     }

@@ -15,6 +15,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Menu implements Serializable {
 
+    public Menu(String pattern) {
+        this.pattern = pattern;
+    }
+
     private Integer id;
 
     private String pattern;

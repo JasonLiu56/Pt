@@ -24,13 +24,21 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Boolean isExist(String name, String nameZh) {
         return roleMapper.isExistByNameOrNameZh(name, nameZh);
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Boolean isExist(Integer id) {
         return roleMapper.isExistById(id);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isExist(Integer id, String name, String nameZh) {
+        return roleMapper.isExistByNotIdAndNameOrNameZh(id, name, nameZh);
     }
 
     @Override
