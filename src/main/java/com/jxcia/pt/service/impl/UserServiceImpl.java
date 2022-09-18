@@ -1,5 +1,6 @@
 package com.jxcia.pt.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.jxcia.pt.entity.User;
 import com.jxcia.pt.mapper.UserMapper;
 import com.jxcia.pt.service.UserService;
@@ -32,14 +33,35 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public Boolean insert(String username, String password, String nickname) {
-        return userMapper.insert(username, password, nickname);
+    public Boolean insert(String username, String password, String nickname, List<Integer> roleIds) {
+        // 增加用户
+        User user = new User(username, password, nickname);
+        Boolean flag = userMapper.insert(user);
+        // 增加用户角色
+        for (Integer roleId : roleIds) {
+            flag = (userMapper.insertUserRole(user.getId(), roleId));
+        }
+        return flag;
+    }
+
+    @Override
+    public Boolean isExist(String username) {
+        return userMapper.isExistByUsername(username);
+    }
+
+    @Override
+    public Boolean isExist(Integer id) {
+        return userMapper.isExistById(id);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean delete(Integer id) {
-        return userMapper.delete(id);
+        // 删除用户
+        Boolean flag = userMapper.delete(id);
+        // 删除用户角色
+        flag = (userMapper.deleteUserRole(id) && flag);
+        return flag;
     }
 
     @Override
@@ -55,15 +77,34 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Boolean updateRoles(Integer id, List<Integer> roleIds) {
+        // 删除原来用户角色
+        Boolean flag = userMapper.deleteUserRole(id);
+        // 插入新的用户角色
+        for (Integer roleId : roleIds) {
+            flag = (userMapper.insertUserRole(id, roleId) && flag);
+        }
+
+        return flag;
+    }
+
+    @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public User findById(Integer id) {
+    public User getById(Integer id) {
         return userMapper.findById(id);
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<User> findByPage(String nickname) {
+    public List<User> getByPage(Integer pageNum, Integer pageSize, String nickname) {
+        PageHelper.startPage(pageNum - 1, pageSize);
         return userMapper.findByPage(nickname);
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Integer countByPage(String nickname) {
+        return userMapper.countByPage(nickname);
+    }
 }

@@ -10,10 +10,22 @@ import java.util.List;
 public interface UserMapper {
 
     // 新增
-    Boolean insert(@Param("username") String username, @Param("password") String password, @Param("nickname") String nickname);
+    Boolean insert(User user);
+
+    // 新增用户角色
+    Boolean insertUserRole(@Param("userId") Integer userId, @Param("roleId") Integer roleId);
+
+    // 根据username判断是否存在
+    Boolean isExistByUsername(@Param("username") String username);
+
+    // 根据id判断是否存在
+    Boolean isExistById(@Param("id") Integer id);
 
     // 删除
     Boolean delete(@Param("id") Integer id);
+
+    // 删除用户角色
+    Boolean deleteUserRole(@Param("userId") Integer userId);
 
     // 更新昵称
     Boolean updateNickname(@Param("id") Integer id, @Param("nickname") String nickname);
@@ -26,6 +38,9 @@ public interface UserMapper {
 
     // 通过条件查询分页查询
     List<User> findByPage(@Param("nickname") String nickname);
+
+    // 通过条件统计查询总数
+    Integer countByPage(@Param("nickname") String nickname);
 
     // 根据username获取User
     User loadUserByUsername(String username);

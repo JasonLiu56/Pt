@@ -20,6 +20,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class User implements UserDetails {
 
+    public User(String username, String password, String nickname) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+    }
+
     private Integer id;
 
     private String password;
@@ -44,6 +50,7 @@ public class User implements UserDetails {
     @JsonIgnore
     private Boolean isDeleted;
 
+    @JsonIgnore
     private Collection<? extends GrantedAuthority> authorities;
 
     @Override

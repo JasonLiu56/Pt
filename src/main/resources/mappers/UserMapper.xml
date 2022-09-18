@@ -30,12 +30,20 @@
         where u.username = #{username} and u.is_deleted = 0 and ur.is_deleted = 0 and r.is_deleted = 0;
     </select>
 
-    <insert id="insert" useGeneratedKeys="true">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert user(username, nickname, password) value(#{username}, #{nickname}, #{password});
+    </insert>
+
+    <insert id="insertUserRole">
+        insert user_role(uid, rid) value(#{userId}, #{roleId});
     </insert>
 
     <update id="delete">
         update user set is_deleted = 1 where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="deleteUserRole">
+        update user_role set is_deleted = 1 where uid = #{userId} and is_deleted = 0;
     </update>
 
     <update id="updateNickname">
@@ -64,6 +72,25 @@
             </if>
             order by u.updated_at desc
         </where>
+    </select>
+
+    <select id="countByPage" resultType="java.lang.Integer">
+        select count(distinct u.id)
+        from user u left join user_role ur on u.id = ur.uid left join role r on r.id = ur.rid
+        <where>
+            u.is_deleted = 0 and ur.is_deleted = 0 and r.is_deleted = 0
+            <if test="nickname != null">
+                and nickname like '%${nickname}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="isExistByUsername" resultType="java.lang.Boolean">
+        select count(1) from user where username = #{username} and is_deleted = 0;
+    </select>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from user where id = #{id} and is_deleted = 0;
     </select>
 
 </mapper>
