@@ -6,24 +6,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Menu implements Serializable {
+public class Chapter {
 
-    public Menu(String pattern) {
-        this.pattern = pattern;
-    }
-
+    // 章节id
     private Integer id;
 
-    private String pattern;
+    // 章节名称
+    private String name;
 
-    private List<Role> roles;
+    // 课程id
+    private Integer courseId;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;

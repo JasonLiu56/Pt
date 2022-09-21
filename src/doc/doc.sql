@@ -84,3 +84,46 @@ INSERT INTO user_role(id, uid, rid) VALUES (2, 1, 2);
 INSERT INTO user_role(id, uid, rid) VALUES (3, 2, 2);
 INSERT INTO user_role(id, uid, rid) VALUES (4, 3, 3);
 COMMIT;
+
+
+# 分类
+create table category (
+    id int(11) not null primary key auto_increment,
+    name varchar(255) not null,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0
+)engine=InnoDB default charset=utf8;
+
+
+# 课程
+create table course (
+    id int(11) not null primary key auto_increment,
+    name varchar(255) not null,
+    category_id int(11) not null,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0,
+    index category_id_index (category_id)
+)engine=InnoDB default charset=utf8;
+
+
+# 章节
+create table chapter (
+    id int(11) not null primary key auto_increment,
+    name varchar(255) not null,
+    course_id int(11) not null,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0,
+    index course_id_index (course_id)
+)engine=InnoDB default charset=utf8;
+
+# 视频
+create table video (
+    id int(11) not null primary key auto_increment,
+    name varchar(100) not null,
+    description varchar(255) not null,
+    url varchar(100) not null,
+    chapter_id int(11) not null,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0,
+    index chapter_id_index (chapter_id)
+)engine=InnoDB default charset=utf8;
