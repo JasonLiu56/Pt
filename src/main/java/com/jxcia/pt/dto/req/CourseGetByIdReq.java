@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "删除分类请求体")
-public class CategoryDeleteReq {
+@ApiModel(value = "根据id获取课程请求体")
+public class CourseGetByIdReq {
 
-    @ApiModelProperty(value = "分类id", notes = "分类id")
+    @ApiModelProperty(value = "课程id", notes = "课程id")
     private Integer id;
 
 }

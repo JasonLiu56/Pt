@@ -13,6 +13,11 @@ import java.util.Date;
 @NoArgsConstructor
 public class Course {
 
+    public Course(String name, Integer categoryId) {
+        this.name = name;
+        this.categoryId = categoryId;
+    }
+
     // 课程id
     private Integer id;
 
@@ -21,6 +26,9 @@ public class Course {
 
     // 分类id
     private Integer categoryId;
+
+    // 分类名称
+    private String categoryName;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;

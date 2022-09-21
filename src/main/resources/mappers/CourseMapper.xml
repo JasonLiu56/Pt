@@ -1,0 +1,68 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxcia.pt.mapper.CourseMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert course(`name`, category_id) values(#{name}, #{categoryId})
+    </insert>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from course where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByName" resultType="java.lang.Boolean">
+        select count(1) from course where name = #{name} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByNonIdAndName" resultType="java.lang.Boolean">
+        select count(1) from course where id != #{id} and `name` = #{name} and is_deleted = 0;
+    </select>
+
+    <update id="delete">
+        update course set is_deleted = 1 where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="update">
+        update course set `name` = #{name}, category_id = #{categoryId} where id = #{id} and is_deleted = 0;
+    </update>
+
+    <select id="getById" resultType="Course">
+        select cr.id as id, cr.`name` as `name`, cr.category_id as category_id, cg.`name` as category_name, cr.updated_at, cr.is_deleted
+        from course cr
+        left join category cg on cr.category_id = cg.id
+        where cr.id = #{id} and cr.is_deleted = 0 and cg.is_deleted = 0;
+    </select>
+
+    <select id="getByPage" resultType="Course">
+        select cr.id as id, cr.`name` as `name`, cr.category_id as category_id, cg.`name` as category_name, cr.updated_at, cr.is_deleted
+        from course cr
+        left join category cg on cr.category_id = cg.id
+        <where>
+            cr.is_deleted = 0 and cg.is_deleted = 0
+            <if test="name != null and name != '' ">
+                and cr.`name` like '%${name}%'
+            </if>
+            <if test="categoryId != null">
+                and cr.category_id = #{categoryId}
+            </if>
+            order by cr.updated_at desc
+        </where>
+    </select>
+
+    <select id="countByPage" resultType="java.lang.Integer">
+        select count(1)
+        from course cr
+        left join category cg on cr.category_id = cg.id
+        <where>
+            cr.is_deleted = 0 and cg.is_deleted = 0
+            <if test="name != null and name != '' ">
+                and cr.`name` like '%${name}%'
+            </if>
+            <if test="categoryId != null">
+                and cr.category_id = #{categoryId}
+            </if>
+        </where>
+    </select>
+
+</mapper>
