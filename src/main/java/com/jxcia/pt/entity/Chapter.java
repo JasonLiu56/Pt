@@ -13,6 +13,11 @@ import java.util.Date;
 @NoArgsConstructor
 public class Chapter {
 
+    public Chapter(String name, Integer courseId) {
+        this.name = name;
+        this.courseId = courseId;
+    }
+
     // 章节id
     private Integer id;
 
@@ -21,6 +26,9 @@ public class Chapter {
 
     // 课程id
     private Integer courseId;
+
+    // 课程名称
+    private String courseName;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;

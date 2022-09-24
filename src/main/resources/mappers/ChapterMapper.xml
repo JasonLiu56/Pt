@@ -1,0 +1,57 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxcia.pt.mapper.ChapterMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert chapter(`name`, course_id) values(#{name}, #{courseId});
+    </insert>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from chapter where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByNameAndCourseId" resultType="java.lang.Boolean">
+        select count(1) from chapter where `name` = #{name} and course_id = #{courseId} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByIdAndCourseId" resultType="java.lang.Boolean">
+        select count(1) from chapter where id = #{id} and course_id = #{courseId} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByNonIdAndNameCourseId" resultType="java.lang.Boolean">
+        select count(1) from chapter where id != #{id} and `name` = #{name} and course_id = #{courseId} and is_deleted = 0;
+    </select>
+
+    <update id="update">
+        update chapter set `name` = #{name}, course_id = #{courseId} where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="delete">
+        update chapter set is_deleted = 1 where id = #{id} and is_deleted = 0;
+    </update>
+
+    <select id="getById" resultType="Chapter">
+        select cp.id as id, cp.name as name, cp.course_id as course_id, cu.name as course_name, cp.updated_at as updated_at, cp.is_deleted as is_deleted
+        from chapter cp
+        left join course cu on cp.course_id = cu.id
+        where cp.id = #{id} and cp.is_deleted = 0 and cu.is_deleted = 0;
+    </select>
+
+    <select id="getAll" resultType="Chapter">
+        select cp.id as id, cp.name as name, cp.course_id as course_id, cu.name as course_name, cp.updated_at as updated_at, cp.is_deleted as is_deleted
+        from chapter cp
+        left join course cu on cp.course_id = cu.id
+        <where>
+            cp.is_deleted = 0 and cu.is_deleted = 0
+            <if test="name != null and name != ''">
+                and cp.`name` like '%${name}%'
+            </if>
+            <if test="courseId != null">
+                and cp.course_id = #{courseId}
+            </if>
+            order by cp.updated_at desc
+        </where>
+    </select>
+
+</mapper>
