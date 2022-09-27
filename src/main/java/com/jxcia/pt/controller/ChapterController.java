@@ -5,6 +5,7 @@ import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.entity.Chapter;
 import com.jxcia.pt.service.ChapterService;
 import com.jxcia.pt.service.CourseService;
+import com.jxcia.pt.service.VideoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class ChapterController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private VideoService videoService;
 
     @ApiOperation(value = "新增章节")
     @PostMapping("/insert")
@@ -76,6 +80,12 @@ public class ChapterController {
         if (!chapterService.isExist(chapterDeleteReq.getId())) {
             log.error("待删除章节不存在 id:{}", chapterDeleteReq.getId());
             return Result.fail("待删除章节不存在");
+        }
+
+        // 检查章节的视频是否为空
+        if (!videoService.isEmpty(chapterDeleteReq.getId())) {
+            log.error("待删除章节下视频不为空 id:{}", chapterDeleteReq.getId());
+            return Result.fail("待删除章节下视频不为空");
         }
 
         // 删除

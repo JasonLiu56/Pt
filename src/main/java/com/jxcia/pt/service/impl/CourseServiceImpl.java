@@ -27,6 +27,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isEmpty(Integer categoryId) {
+        return !courseMapper.isExistByCategoryId(categoryId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Boolean isExist(Integer id) {
         return courseMapper.isExistById(id);
     }

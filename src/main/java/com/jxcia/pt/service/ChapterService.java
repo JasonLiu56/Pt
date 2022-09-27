@@ -9,6 +9,9 @@ public interface ChapterService {
     // 新增
     Boolean insert(String name, Integer courseId);
 
+    // 通过courseId查询是章节是否为空
+    Boolean isEmpty(Integer courseId);
+
     // 通过id查询章节存在
     Boolean isExist(Integer id);
 

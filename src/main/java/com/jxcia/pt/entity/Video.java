@@ -13,6 +13,12 @@ import java.util.Date;
 @NoArgsConstructor
 public class Video {
 
+    public Video(String name, String description, Integer chapterId) {
+        this.name = name;
+        this.description = description;
+        this.chapterId = chapterId;
+    }
+
     // 视频id
     private Integer id;
 

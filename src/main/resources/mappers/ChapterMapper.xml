@@ -11,6 +11,10 @@
         select count(1) from chapter where id = #{id} and is_deleted = 0;
     </select>
 
+    <select id="isExistByCourseId" resultType="java.lang.Boolean">
+        select count(1) from chapter where course_id = #{courseId} and is_deleted = 0;
+    </select>
+
     <select id="isExistByNameAndCourseId" resultType="java.lang.Boolean">
         select count(1) from chapter where `name` = #{name} and course_id = #{courseId} and is_deleted = 0;
     </select>

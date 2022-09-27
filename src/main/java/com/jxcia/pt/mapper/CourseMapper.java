@@ -12,6 +12,9 @@ public interface CourseMapper {
     // 新增
     Boolean insert(Course course);
 
+    // 通过categoryId判断是否存在
+    Boolean isExistByCategoryId(@Param("categoryId") Integer categoryId);
+
     // 通过id判断是否存在
     Boolean isExistById(@Param("id") Integer id);
 

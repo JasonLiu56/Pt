@@ -15,6 +15,9 @@ public interface ChapterMapper {
     // 通过id查询章节存在
     Boolean isExistById(@Param("id") Integer id);
 
+    // 通过chapterId查询是否存在
+    Boolean isExistByCourseId(@Param("courseId") Integer courseId);
+
     // 通过name查询章节是否存在
     Boolean isExistByNameAndCourseId(@Param("name") String name, @Param("courseId") Integer courseId);
 

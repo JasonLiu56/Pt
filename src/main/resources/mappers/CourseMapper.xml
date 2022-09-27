@@ -7,6 +7,10 @@
         insert course(`name`, category_id) values(#{name}, #{categoryId})
     </insert>
 
+    <select id="isExistByCategoryId" resultType="java.lang.Boolean">
+        select count(1) from course where category_id = #{categoryId} and is_deleted = 0;
+    </select>
+
     <select id="isExistById" resultType="java.lang.Boolean">
         select count(1) from course where id = #{id} and is_deleted = 0;
     </select>

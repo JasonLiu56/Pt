@@ -26,6 +26,12 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isEmpty(Integer courseId) {
+        return !chapterMapper.isExistByCourseId(courseId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Boolean isExist(Integer id) {
         return chapterMapper.isExistById(id);
     }

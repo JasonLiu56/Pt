@@ -5,6 +5,7 @@ import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.dto.vo.PageVo;
 import com.jxcia.pt.entity.Category;
 import com.jxcia.pt.service.CategoryService;
+import com.jxcia.pt.service.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,9 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    public CourseService courseService;
 
     @ApiOperation(value = "新增分类")
     @PostMapping("/insert")
@@ -67,6 +71,12 @@ public class CategoryController {
         if (!categoryService.isExist(categoryDeleteReq.getId())) {
             log.error("待删除分类不存在 id:{}", categoryDeleteReq.getId());
             return Result.fail("待删除分类不存在");
+        }
+
+        // 查看分类下是否存在课程
+        if (!courseService.isEmpty(categoryDeleteReq.getId())) {
+            log.error("待删除的分类课程不为空 id:{}", categoryDeleteReq.getId());
+            return Result.fail("待删除的分类课程不为空");
         }
 
         // 删除分类

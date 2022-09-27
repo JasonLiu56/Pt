@@ -5,6 +5,7 @@ import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.dto.vo.PageVo;
 import com.jxcia.pt.entity.Course;
 import com.jxcia.pt.service.CategoryService;
+import com.jxcia.pt.service.ChapterService;
 import com.jxcia.pt.service.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +30,10 @@ public class CourseController {
     private CourseService courseService;
 
     @Autowired
-    public CategoryService categoryService;
+    private CategoryService categoryService;
+
+    @Autowired
+    private ChapterService chapterService;
 
     @ApiOperation(value = "新增课程")
     @PostMapping("/insert")
@@ -77,6 +81,12 @@ public class CourseController {
         if (!courseService.isExist(courseDeleteReq.getId())) {
             log.error("待删除的课程不存在 id:{}", courseDeleteReq);
             return Result.fail("待删除的课程不存在");
+        }
+
+        // 检查课程下的章节是否为空
+        if (!chapterService.isEmpty(courseDeleteReq.getId())) {
+            log.error("待删除的课程章节不为空 id:{}", courseDeleteReq);
+            return Result.fail("待删除的课程章节不为空");
         }
 
         // 删除课程

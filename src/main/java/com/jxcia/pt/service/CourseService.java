@@ -9,6 +9,9 @@ public interface CourseService {
     // 新增
     Boolean insert(String name, Integer categoryId);
 
+    // 根据分类id查看查看是否为空
+    Boolean isEmpty(Integer categoryId);
+
     // 通过id判断是否存在
     Boolean isExist(Integer id);
 

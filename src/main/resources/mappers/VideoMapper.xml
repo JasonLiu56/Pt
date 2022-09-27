@@ -1,0 +1,59 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxcia.pt.mapper.VideoMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert video(`name`, description, chapter_id) values(#{name}, #{description}, #{chapterId});
+    </insert>
+
+    <select id="isExistByChapterId" resultType="java.lang.Boolean">
+        select count(1) from video where chapter_id = #{chapterId} and is_deleted = 0;
+    </select>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from video where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByChapterIdAndName" resultType="java.lang.Boolean">
+        select count(1) from video where chapter_id = #{chapterId} and `name` = #{name} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByNonIdAndChapterIdName" resultType="java.lang.Boolean">
+        select count(1) from video where id != #{id} and chapter_id = #{chapterId} and `name` = #{name};
+    </select>
+
+    <update id="delete">
+        update video set is_deleted = 1 where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="update">
+        update video set `name` = #{name}, description = #{description}, chapter_id = #{chapterId} where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="updateUrl">
+        update video set url = #{url} where id = #{id} and is_deleted = 0;
+    </update>
+
+    <select id="getById" resultType="Video">
+        select id, `name`, description, url, chapter_id, updated_at, is_deleted
+        from video
+        where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="getAll" resultType="Video">
+        select id, `name`, description, url, chapter_id, updated_at, is_deleted
+        from video
+        <where>
+            is_deleted = 0
+            <if test="chapterId != null">
+                and chapter_id = #{chapterId}
+            </if>
+            <if test="name != null and name != ''">
+                and `name` like '%${name}%'
+            </if>
+            order by updated_at desc
+        </where>
+    </select>
+
+</mapper>

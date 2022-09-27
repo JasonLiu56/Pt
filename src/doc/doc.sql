@@ -121,7 +121,7 @@ create table video (
     id int(11) not null primary key auto_increment,
     name varchar(100) not null,
     description varchar(255) not null,
-    url varchar(100) not null,
+    url varchar(100) default null,
     chapter_id int(11) not null,
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
