@@ -1,0 +1,56 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxcia.pt.mapper.FillQuestionMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert fill_question(exam_id, question, answer, analysis, score) values(#{examId}, #{question}, #{answer}, #{analysis}, #{score});
+    </insert>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from fill_question where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByExamIdAndQuestion" resultType="java.lang.Boolean">
+        select count(1) from fill_question where exam_id = #{examId} and question = #{question} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByNonIdAndExamIdQuestion" resultType="java.lang.Boolean">
+        select count(1) from fill_question where id != #{id} and exam_id = #{examId} and question = #{question} and is_deleted = 0;
+    </select>
+
+    <update id="delete">
+        update fill_question set is_deleted = 1 where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="update">
+        update fill_question set exam_id = #{examId}, question = #{question}, answer = #{answer}, analysis = #{analysis}, score = #{score}
+        where id = #{id} and is_deleted = 0;
+    </update>
+
+    <select id="getById" resultType="FillQuestion">
+        select fq.id as id, fq.exam_id as exam_id, e.name as exam_name, fq.question as question,
+        fq.answer as answer, fq.analysis as analysis, fq.score as score, fq.updated_at as updated_at, fq.is_deleted as is_deleted
+        from fill_question fq
+        left join exam e on fq.exam_id = e.id
+        where fq.id = #{id} and fq.is_deleted = 0 and e.is_deleted = 0;
+    </select>
+
+    <select id="getAll" resultType="FillQuestion">
+        select fq.id as id, fq.exam_id as exam_id, e.name as exam_name, fq.question as question,
+        fq.answer as answer, fq.analysis as analysis, fq.score as score, fq.updated_at as updated_at, fq.is_deleted as is_deleted
+        from fill_question fq
+        left join exam e on fq.exam_id = e.id
+        <where>
+            fq.is_deleted = 0 and e.is_deleted = 0
+            <if test="examId != null">
+                and fq.exam_id = #{examId}
+            </if>
+            <if test="question != null and question != ''">
+                and fq.question like '%${question}%'
+            </if>
+            order by fq.updated_at desc
+        </where>
+    </select>
+
+</mapper>

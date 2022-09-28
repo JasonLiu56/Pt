@@ -3,7 +3,8 @@ create table menu (
     id int(11) not null primary key auto_increment,
     pattern varchar(128) default null unique,
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
+    is_deleted tinyint(1) default 0,
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 # 角色表
@@ -12,7 +13,8 @@ create table role (
     name varchar(32) not null unique,
     name_zh varchar(32) not null unique,
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
+    is_deleted tinyint(1) default 0,
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 # 角色菜单表
@@ -23,7 +25,8 @@ create table menu_role (
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
     index menu_index (mid),
-    index role_index (rid)
+    index role_index (rid),
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 # 用户表
@@ -37,7 +40,8 @@ create table user (
     account_non_locked tinyint(1) default 1,
     credentials_non_expired tinyint(1) default 1,
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
+    is_deleted tinyint(1) default 0,
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 
@@ -49,7 +53,8 @@ create table user_role (
     index user_index (uid),
     index role_index (rid),
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
+    is_deleted tinyint(1) default 0,
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 # 插入数据
@@ -91,7 +96,8 @@ create table category (
     id int(11) not null primary key auto_increment,
     name varchar(255) not null,
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
+    is_deleted tinyint(1) default 0,
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 
@@ -102,7 +108,8 @@ create table course (
     category_id int(11) not null,
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
-    index category_id_index (category_id)
+    index category_id_index (category_id),
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 
@@ -113,7 +120,8 @@ create table chapter (
     course_id int(11) not null,
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
-    index course_id_index (course_id)
+    index course_id_index (course_id),
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 # 视频
@@ -125,7 +133,8 @@ create table video (
     chapter_id int(11) not null,
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
-    index chapter_id_index (chapter_id)
+    index chapter_id_index (chapter_id),
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 
@@ -135,34 +144,42 @@ create table exam (
     name varchar(100) not null,
     description varchar(255) not null,
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
+    is_deleted tinyint(1) default 0,
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 # 填空问题
 create table fill_question (
     id int(11) not null primary key auto_increment,
+    exam_id int(11) not null,
     question varchar(255) not null,
     answer varchar(255) not null,
     analysis varchar(255) not null,
     score int(2) default 2,
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
+    is_deleted tinyint(1) default 0,
+    index exam_id_index (exam_id),
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 # 判断问题
 create table judge_question (
     id int(11) not null primary key auto_increment,
+    exam_id int(11) not null,
     question varchar(255) not null,
     answer varchar(255) not null,
     analysis varchar(255) not null,
     score int(2) default 2,
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
+    is_deleted tinyint(1) default 0,
+    index exam_id_index (exam_id),
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
 # 选择题
 create table select_question (
     id int(11) not null primary key auto_increment,
+    exam_id int(11) not null,
     question varchar(255) not null,
     answer_a varchar(255) not null,
     answer_b varchar(255) not null,
@@ -172,22 +189,14 @@ create table select_question (
     analysis varchar(255) not null,
     score int(2) default 2,
     updated_at datetime not null default now(),
-    is_deleted tinyint(1) default 0
-)engine=InnoDB default charset=utf8;
-
-# 考试问题
-create table exam_question (
-    id int(11) not null primary key auto_increment,
-    exam_id int(11) not null,
-    question_id int(11) not null,
-    updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
     index exam_id_index (exam_id),
-    index question_id_index (question_id)
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
-# 考试问题结果
-create table exam_question_res (
+
+# 问题结果
+create table question_res (
     id int(11) not null primary key auto_increment,
     exam_id int(11) not null,
     question_id int(11) not null,
@@ -195,5 +204,6 @@ create table exam_question_res (
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
     index exam_id_index (exam_id),
-    index question_id_index (question_id)
+    index question_id_index (question_id),
+    index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;

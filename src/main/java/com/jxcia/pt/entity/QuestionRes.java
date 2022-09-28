@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExamQuestionRes {
+public class QuestionRes {
 
     private Integer id;
 

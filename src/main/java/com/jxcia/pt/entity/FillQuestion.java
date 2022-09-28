@@ -13,9 +13,21 @@ import java.util.Date;
 @NoArgsConstructor
 public class FillQuestion {
 
+    public FillQuestion(Integer examId, String question, String answer, String analysis, Integer score) {
+        this.question = question;
+        this.examId = examId;
+        this.answer = answer;
+        this.analysis = analysis;
+        this.score = score;
+    }
+
     private Integer id;
 
     private String question;
+
+    private Integer examId;
+
+    private String examName;
 
     private String answer;
 

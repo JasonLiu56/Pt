@@ -15,6 +15,8 @@ public class SelectQuestion {
 
     private Integer id;
 
+    private Integer examId;
+
     private String question;
 
     private String answerA;
