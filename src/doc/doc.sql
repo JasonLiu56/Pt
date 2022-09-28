@@ -127,3 +127,73 @@ create table video (
     is_deleted tinyint(1) default 0,
     index chapter_id_index (chapter_id)
 )engine=InnoDB default charset=utf8;
+
+
+# 考试
+create table exam (
+    id int(11) not null primary key auto_increment,
+    name varchar(100) not null,
+    description varchar(255) not null,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0
+)engine=InnoDB default charset=utf8;
+
+# 填空问题
+create table fill_question (
+    id int(11) not null primary key auto_increment,
+    question varchar(255) not null,
+    answer varchar(255) not null,
+    analysis varchar(255) not null,
+    score int(2) default 2,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0
+)engine=InnoDB default charset=utf8;
+
+# 判断问题
+create table judge_question (
+    id int(11) not null primary key auto_increment,
+    question varchar(255) not null,
+    answer varchar(255) not null,
+    analysis varchar(255) not null,
+    score int(2) default 2,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0
+)engine=InnoDB default charset=utf8;
+
+# 选择题
+create table select_question (
+    id int(11) not null primary key auto_increment,
+    question varchar(255) not null,
+    answer_a varchar(255) not null,
+    answer_b varchar(255) not null,
+    answer_c varchar(255) not null,
+    answer_d varchar(255) not null,
+    answer varchar(255) not null,
+    analysis varchar(255) not null,
+    score int(2) default 2,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0
+)engine=InnoDB default charset=utf8;
+
+# 考试问题
+create table exam_question (
+    id int(11) not null primary key auto_increment,
+    exam_id int(11) not null,
+    question_id int(11) not null,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0,
+    index exam_id_index (exam_id),
+    index question_id_index (question_id)
+)engine=InnoDB default charset=utf8;
+
+# 考试问题结果
+create table exam_question_res (
+    id int(11) not null primary key auto_increment,
+    exam_id int(11) not null,
+    question_id int(11) not null,
+    res varchar(255) not null,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0,
+    index exam_id_index (exam_id),
+    index question_id_index (question_id)
+)engine=InnoDB default charset=utf8;
