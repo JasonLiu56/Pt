@@ -31,11 +31,11 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 //设置文档标题(API名称)
-                .title("SpringBoot中使用Swagger2接口规范")
+                .title("教学平台Swagger2接口")
                 //文档描述
                 .description("接口说明")
                 //服务条款URL
-                .termsOfServiceUrl("http://localhost:8080/")
+                .termsOfServiceUrl("http://www.pt.com:8080/")
                 //版本号
                 .version("1.0.0")
                 .build();

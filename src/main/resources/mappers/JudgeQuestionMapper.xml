@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxcia.pt.mapper.JudgeQuestionMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert judge_question(exam_id,question,answer,analysis,score) values(#{examId}, #{question}, #{answer}, #{analysis}, #{score});
+    </insert>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from judge_question where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByExamIdAndQuestion" resultType="java.lang.Boolean">
+        select count(1) from judge_question where exam_id = #{examId} and question = #{question} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByNonIdAndExamIdAndQuestion" resultType="java.lang.Boolean">
+        select count(1) from judge_question where id != #{id} and exam_id = #{examId} and question = #{question} and is_deleted = 0;
+    </select>
+
+    <update id="delete">
+        update judge_question set is_deleted = 1 where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="update">
+        update judge_question set exam_id = #{examId}, question = #{question}, answer = #{answer}, analysis = #{analysis}, score = #{score}
+        where id = #{id} and is_deleted = 0;
+    </update>
+
+    <select id="getById" resultType="JudgeQuestion">
+        select id, exam_id, question, answer, analysis, score, updated_at, is_deleted
+        from judge_question
+        where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="getAll" resultType="JudgeQuestion">
+        select id, exam_id, question, answer, analysis, score, updated_at, is_deleted
+        from judge_question
+        <where>
+            exam_id = #{examId} and is_deleted = 0
+            <if test="question != null and question != ''">
+                and question like '%${question}%'
+            </if>
+        </where>
+        order by updated_at desc
+    </select>
+
+</mapper>

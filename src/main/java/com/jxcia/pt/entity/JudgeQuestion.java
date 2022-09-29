@@ -13,6 +13,14 @@ import java.util.Date;
 @NoArgsConstructor
 public class JudgeQuestion {
 
+    public JudgeQuestion(Integer examId, String question, String answer, String analysis, Integer score) {
+        this.question = question;
+        this.examId = examId;
+        this.answer = answer;
+        this.analysis = analysis;
+        this.score = score;
+    }
+
     private Integer id;
 
     private String question;
