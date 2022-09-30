@@ -30,13 +30,13 @@ public class RoleController {
         // 参数检查
         if (StringUtils.isEmpty(roleInsertReq.getName()) || StringUtils.isEmpty(roleInsertReq.getNameZh())) {
             log.error("新增角色参数为空 name:{}, nameZh:{}", roleInsertReq.getName(), roleInsertReq.getNameZh());
-            return Result.fail("新增角色为空");
+            return Result.fail("新增角色为空", null);
         }
 
         // 判断已经存在同名的角色
         if (roleService.isExist(roleInsertReq.getName(), roleInsertReq.getNameZh())) {
             log.error("新增角色已经存在 name:{}, nameZh:{}", roleInsertReq.getName(), roleInsertReq.getNameZh());
-            return Result.fail("新增角色已经存在");
+            return Result.fail("新增角色已经存在", null);
         }
 
         // 插入角色
@@ -44,10 +44,10 @@ public class RoleController {
 
         if (flag) {
             log.info("新增角色成功: {}", roleInsertReq);
-            return Result.succ("新增角色成功");
+            return Result.succ("新增角色成功", null);
         } else {
             log.error("新增角色失败: {}", roleInsertReq);
-            return Result.fail("新增角色失败");
+            return Result.fail("新增角色失败", null);
         }
     }
 
@@ -57,13 +57,13 @@ public class RoleController {
         // 参数检查
         if (ObjectUtils.isEmpty(roleDeleteReq.getId())) {
             log.error("删除角色参数为空 id:{}", roleDeleteReq.getId());
-            return Result.fail("删除角色参数为空");
+            return Result.fail("删除角色参数为空", null);
         }
 
         // 通过id判断角色是否存在
         if (!roleService.isExist(roleDeleteReq.getId())) {
             log.error("删除角色不存在 id:{}", roleDeleteReq.getId());
-            return Result.fail("删除角色不存在");
+            return Result.fail("删除角色不存在", null);
         }
 
         // 删除角色
@@ -71,10 +71,10 @@ public class RoleController {
 
         if (flag) {
             log.info("删除角色成功: {}", roleDeleteReq);
-            return Result.succ("删除角色成功");
+            return Result.succ("删除角色成功", null);
         } else {
             log.error("删除角色失败: {}", roleDeleteReq);
-            return Result.fail("删除角色失败");
+            return Result.fail("删除角色失败", null);
         }
     }
 
@@ -92,13 +92,13 @@ public class RoleController {
         // 通过id判断待修改的角色是否存在
         if(!roleService.isExist(roleUpdateReq.getId())) {
             log.error("待更新角色不存在 id:{}", roleUpdateReq.getId());
-            return Result.fail("待更新角色不存在");
+            return Result.fail("待更新角色不存在", null);
         }
 
         // 判断修改的角色是否已经存在
         if (roleService.isExist(roleUpdateReq.getId(), roleUpdateReq.getName(), roleUpdateReq.getNameZh())) {
             log.error("待更新角色已经存在 id:{} name:{} nameZh:{}", roleUpdateReq.getId(), roleUpdateReq.getName(), roleUpdateReq.getNameZh());
-            return Result.fail("待更新角色已经存在");
+            return Result.fail("待更新角色已经存在", null);
         }
 
         // 更新角色
@@ -106,10 +106,10 @@ public class RoleController {
 
         if (flag) {
             log.info("更新角色成功: {}", roleUpdateReq);
-            return Result.succ("更新角色成功");
+            return Result.succ("更新角色成功", null);
         } else {
             log.error("更新角色失败: {}", roleUpdateReq);
-            return Result.fail("更新角色失败");
+            return Result.fail("更新角色失败", null);
         }
     }
 
@@ -119,13 +119,13 @@ public class RoleController {
         // 参数检查
         if (ObjectUtils.isEmpty(roleGetByIdReq.getId())) {
             log.error("查询角色参数为空 id:{}", roleGetByIdReq.getId());
-            return Result.fail("查询角色参数为空");
+            return Result.fail("查询角色参数为空", null);
         }
 
         // 查询是否存在
         if (!roleService.isExist(roleGetByIdReq.getId())) {
             log.error("查询角色不存在 id:{}", roleGetByIdReq.getId());
-            return Result.fail("查询角色不存在");
+            return Result.fail("查询角色不存在", null);
         }
 
         // 通过id查询

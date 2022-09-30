@@ -41,19 +41,19 @@ public class CourseController {
         // 参数检查
         if (StringUtils.isEmpty(courseInsertReq.getName()) || ObjectUtils.isEmpty(courseInsertReq.getCategoryId())) {
             log.error("新增课程参数为空 name:{} categoryId:{}", courseInsertReq.getName(), courseInsertReq.getCategoryId());
-            return Result.fail("新增课程参数为空");
+            return Result.fail("新增课程参数为空", null);
         }
 
         // 检查课程是否存在
         if (courseService.isExist(courseInsertReq.getName())) {
             log.error("新增课程已经存在 name:{} categoryId:{}", courseInsertReq.getName(), courseInsertReq.getCategoryId());
-            return Result.fail("新增课程已经存在");
+            return Result.fail("新增课程已经存在", null);
         }
 
         // 检查categoryId是否存在
         if (!categoryService.isExist(courseInsertReq.getCategoryId())) {
             log.error("新增课程分类不存在 categoryId:{}", courseInsertReq.getCategoryId());
-            return Result.fail("新增课程分类不存在");
+            return Result.fail("新增课程分类不存在", null);
         }
 
         // 新增课程
@@ -61,10 +61,10 @@ public class CourseController {
 
         if (flag) {
             log.info("新增课程成功: {}", courseInsertReq);
-            return Result.succ("新增课程成功");
+            return Result.succ("新增课程成功", null);
         } else {
             log.error("新增课程失败: {}", courseInsertReq);
-            return Result.fail("新增课程失败");
+            return Result.fail("新增课程失败", null);
         }
     }
 
@@ -74,19 +74,19 @@ public class CourseController {
         // 参数检查
         if (ObjectUtils.isEmpty(courseDeleteReq.getId())) {
             log.error("删除课程参数为空 id:{}", courseDeleteReq.getId());
-            return Result.fail("删除参数为空");
+            return Result.fail("删除参数为空", null);
         }
 
         // 检查课程是否存在
         if (!courseService.isExist(courseDeleteReq.getId())) {
             log.error("待删除的课程不存在 id:{}", courseDeleteReq);
-            return Result.fail("待删除的课程不存在");
+            return Result.fail("待删除的课程不存在", null);
         }
 
         // 检查课程下的章节是否为空
         if (!chapterService.isEmpty(courseDeleteReq.getId())) {
             log.error("待删除的课程章节不为空 id:{}", courseDeleteReq);
-            return Result.fail("待删除的课程章节不为空");
+            return Result.fail("待删除的课程章节不为空", null);
         }
 
         // 删除课程
@@ -94,10 +94,10 @@ public class CourseController {
 
         if (flag) {
             log.info("删除课程成功: {}", courseDeleteReq);
-            return Result.succ("删除课程成功");
+            return Result.succ("删除课程成功", null);
         } else {
             log.error("删除课程失败: {}", courseDeleteReq);
-            return Result.fail("删除课程失败");
+            return Result.fail("删除课程失败", null);
         }
     }
 
@@ -107,25 +107,25 @@ public class CourseController {
         // 参数检查
         if (ObjectUtils.isEmpty(courseUpdateReq.getId()) || ObjectUtils.isEmpty(courseUpdateReq.getCategoryId()) || StringUtils.isEmpty(courseUpdateReq.getName())) {
             log.error("更新课程参数为空 id:{} categoryId:{}, name:{}", courseUpdateReq.getId(), courseUpdateReq.getCategoryId(), courseUpdateReq.getName());
-            return Result.fail("更新课程参数为空");
+            return Result.fail("更新课程参数为空", null);
         }
 
         // 查看课程分类是否存在
         if (!categoryService.isExist(courseUpdateReq.getCategoryId())) {
             log.error("更新课程课程分类不存在 categoryId:{}", courseUpdateReq.getCategoryId());
-            return Result.fail("更新课程课程分类不存在");
+            return Result.fail("更新课程课程分类不存在", null);
         }
 
         // 查看待更新的课程是否存在
         if (!categoryService.isExist(courseUpdateReq.getId())) {
             log.error("待更新的课程不存在 id:{}", courseUpdateReq.getId());
-            return Result.fail("待更新的课程不存在");
+            return Result.fail("待更新的课程不存在", null);
         }
         
         // 查看课程是否存在同名
         if (courseService.isExist(courseUpdateReq.getId(), courseUpdateReq.getName())) {
             log.error("更新课程课程已存在 id:{} name:{}", courseUpdateReq.getId(), courseUpdateReq.getName());
-            return Result.fail("更新课程课程已存在");
+            return Result.fail("更新课程课程已存在", null);
         }
 
         // 更新课程
@@ -133,10 +133,10 @@ public class CourseController {
 
         if (flag) {
             log.info("更新课程成功: {}", courseUpdateReq);
-            return Result.succ("更新课程成功");
+            return Result.succ("更新课程成功", null);
         } else {
             log.error("更新课程失败: {}", courseUpdateReq);
-            return Result.fail("更新课程失败");
+            return Result.fail("更新课程失败", null);
         }
     }
 
@@ -146,13 +146,13 @@ public class CourseController {
         // 参数检查
         if (ObjectUtils.isEmpty(courseGetByIdReq.getId())) {
             log.error("根据id获取课程参数为空 id:{}", courseGetByIdReq.getId());
-            return Result.fail("根据id获取课程参数为空");
+            return Result.fail("根据id获取课程参数为空", null);
         }
 
         // 根据id查询课程是否存在
         if (!courseService.isExist(courseGetByIdReq.getId())) {
             log.error("根据id获取课程不存在 id:{}", courseGetByIdReq.getId());
-            return Result.fail("根据id获取课程不存在");
+            return Result.fail("根据id获取课程不存在", null);
         }
 
         Course course = courseService.getById(courseGetByIdReq.getId());
@@ -168,7 +168,7 @@ public class CourseController {
         // 参数检查
         if (ObjectUtils.isEmpty(courseGetByPageReq.getPageNum()) || ObjectUtils.isEmpty(courseGetByPageReq.getPageSize())) {
             log.error("分页查询课程参数为空 pageNum:{} pageSize:{}", courseGetByPageReq.getPageNum(), courseGetByPageReq.getPageSize());
-            return Result.fail("分页查询课程参数为空");
+            return Result.fail("分页查询课程参数为空", null);
         }
 
         // 分页查询

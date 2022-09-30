@@ -40,25 +40,25 @@ public class FillQuestionController {
             log.error("新增填空题参数为空 examId:{} score:{} question:{}, answer:{} analysis:{}", fillQuestionInsertReq.getExamId(),
                     fillQuestionInsertReq.getScore(), fillQuestionInsertReq.getQuestion(), fillQuestionInsertReq.getAnswer(),
                     fillQuestionInsertReq.getAnalysis());
-            return Result.fail("新增填空题参数为空");
+            return Result.fail("新增填空题参数为空", null);
         }
 
         // 校验分数
         if (fillQuestionInsertReq.getScore() <= 0 || fillQuestionInsertReq.getScore() >= 100) {
             log.error("新增填空题分数不合理 score:{}", fillQuestionInsertReq.getScore());
-            return Result.fail("新增填空题分数不合理");
+            return Result.fail("新增填空题分数不合理", null);
         }
 
         // 根据examId检查试卷是否存在
         if (!examService.isExist(fillQuestionInsertReq.getExamId())) {
             log.error("新增填空题试卷不存在 examId:{}", fillQuestionInsertReq.getExamId());
-            return Result.fail("新增填空题试卷不存在");
+            return Result.fail("新增填空题试卷不存在", null);
         }
 
         // 根据examId和question校验是否存在同名的question
         if (fillQuestionService.isExist(fillQuestionInsertReq.getExamId(), fillQuestionInsertReq.getQuestion())) {
             log.error("新增填空题题目已存在 examId:{} question:{}", fillQuestionInsertReq.getExamId(), fillQuestionInsertReq.getQuestion());
-            return Result.fail("新增填空题题目已存在");
+            return Result.fail("新增填空题题目已存在", null);
         }
 
         // 新增填空题
@@ -67,10 +67,10 @@ public class FillQuestionController {
 
         if (flag) {
             log.info("新增填空题成功: {}", fillQuestionInsertReq);
-            return Result.succ("新增填空题成功");
+            return Result.succ("新增填空题成功", null);
         } else {
             log.error("新增填空题失败: {}", fillQuestionInsertReq);
-            return Result.fail("新增填空题失败");
+            return Result.fail("新增填空题失败", null);
         }
     }
 
@@ -80,13 +80,13 @@ public class FillQuestionController {
         // 参数检查
         if (ObjectUtils.isEmpty(fillQuestionDeleteReq.getId())) {
             log.error("删除填空题参数为空 id:{}", fillQuestionDeleteReq.getId());
-            return Result.fail("删除填空题参数为空");
+            return Result.fail("删除填空题参数为空",null);
         }
 
         // 查看待删除的填空题是否存在
         if (!fillQuestionService.isExist(fillQuestionDeleteReq.getId())) {
             log.error("待删除填空题不存在 id:{}", fillQuestionDeleteReq.getId());
-            return Result.fail("待删除填空题不存在");
+            return Result.fail("待删除填空题不存在", null);
         }
 
         // 删除填空题
@@ -94,10 +94,10 @@ public class FillQuestionController {
 
         if (flag) {
             log.info("删除填空题成功: {}", fillQuestionDeleteReq);
-            return Result.succ("删除填空题成功");
+            return Result.succ("删除填空题成功", null);
         } else {
             log.error("删除填空题失败: {}", fillQuestionDeleteReq);
-            return Result.fail("删除填空题失败");
+            return Result.fail("删除填空题失败", null);
         }
     }
 
@@ -111,31 +111,31 @@ public class FillQuestionController {
             log.error("更新填空题参数为空 id:{} examId:{} score:{} question:{}, answer:{} analysis:{}", fillQuestionUpdateReq.getId(),
                     fillQuestionUpdateReq.getExamId(), fillQuestionUpdateReq.getScore(), fillQuestionUpdateReq.getQuestion(),
                     fillQuestionUpdateReq.getAnswer(), fillQuestionUpdateReq.getAnalysis());
-            return Result.fail("更新填空题参数为空");
+            return Result.fail("更新填空题参数为空", null);
         }
 
         // 校验分数
         if (fillQuestionUpdateReq.getScore() <= 0 || fillQuestionUpdateReq.getScore() >= 100) {
             log.error("更新填空题分数不合理 score:{}", fillQuestionUpdateReq.getScore());
-            return Result.fail("更新填空题分数不合理");
+            return Result.fail("更新填空题分数不合理", null);
         }
 
         // 通过id检查待更新的填空题是否存在
         if (!fillQuestionService.isExist(fillQuestionUpdateReq.getId())) {
             log.error("待更新填空题不存在 id:{}", fillQuestionUpdateReq.getId());
-            return Result.fail("待更新的填空题不存在");
+            return Result.fail("待更新的填空题不存在", null);
         }
 
         // 根据examId检查试卷是否存在
         if (!examService.isExist(fillQuestionUpdateReq.getExamId())) {
             log.error("待更新填空题试卷不存在 examId:{}", fillQuestionUpdateReq.getExamId());
-            return Result.fail("待更新填空题试卷不存在");
+            return Result.fail("待更新填空题试卷不存在", null);
         }
 
         // 检查统一试卷下是否存在同名的填空题(除开自己)
         if (fillQuestionService.isExist(fillQuestionUpdateReq.getId(), fillQuestionUpdateReq.getExamId(), fillQuestionUpdateReq.getQuestion())) {
             log.error("待更新填空题问题已存在 id:{} examId:{} question:{}", fillQuestionUpdateReq.getId(), fillQuestionUpdateReq.getExamId(), fillQuestionUpdateReq.getQuestion());
-            return Result.fail("待更新填空题问题已存在");
+            return Result.fail("待更新填空题问题已存在", null);
         }
 
         // 更新填空题
@@ -145,10 +145,10 @@ public class FillQuestionController {
 
         if (flag) {
             log.info("更新填空题成功: {}", fillQuestionUpdateReq);
-            return Result.succ("更新填空题成功");
+            return Result.succ("更新填空题成功", null);
         } else {
             log.error("更新填空题失败: {}", fillQuestionUpdateReq);
-            return Result.fail("更新填空题失败");
+            return Result.fail("更新填空题失败", null);
         }
     }
 
@@ -158,13 +158,13 @@ public class FillQuestionController {
         // 参数检查
         if (ObjectUtils.isEmpty(fillQuestionGetByIdReq.getId())) {
             log.error("通过id获取填空题参数为空 id:{}", fillQuestionGetByIdReq.getId());
-            return Result.fail("通过id获取填空题参数为空");
+            return Result.fail("通过id获取填空题参数为空", null);
         }
 
         // 查看待删除的填空题是否存在
         if (!fillQuestionService.isExist(fillQuestionGetByIdReq.getId())) {
             log.error("通过id获取填空题不存在 id:{}", fillQuestionGetByIdReq.getId());
-            return Result.fail("通过id获取填空题不存在");
+            return Result.fail("通过id获取填空题不存在", null);
         }
 
         // 获取填空题
@@ -180,7 +180,7 @@ public class FillQuestionController {
         // 参数检查
         if (ObjectUtils.isEmpty(fillQuestionGetAllReq.getExamId())) {
             log.error("获取所有填空题参数为空 examId:{}", fillQuestionGetAllReq.getExamId());
-            return Result.fail("获取所有填空题参数为空");
+            return Result.fail("获取所有填空题参数为空", null);
         }
 
         // 获取所有的填空题

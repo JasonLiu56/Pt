@@ -27,6 +27,8 @@ public class JudgeQuestion {
 
     private Integer examId;
 
+    private String examName;
+
     private String answer;
 
     private String analysis;

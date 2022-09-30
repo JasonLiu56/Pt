@@ -43,14 +43,14 @@ public class UserController {
         || StringUtils.isEmpty(userInsertReq.getRoleIds()) || userInsertReq.getRoleIds().isEmpty()) {
             log.error("新增用户参数为空 username:{} nickname:{} password:{} roleIds:{}", userInsertReq.getStaffNo(), userInsertReq.getNickname(),
                     userInsertReq.getPassword(), userInsertReq.getRoleIds());
-            return Result.fail("新增用户参数为空");
+            return Result.fail("新增用户参数为空", null);
         }
 
         // 检查是否存在同学工号的用户
         if (userService.isExist(userInsertReq.getStaffNo())) {
             log.error("新增用户已经存在 username:{} nickname:{} password:{} roleIds:{}", userInsertReq.getStaffNo(), userInsertReq.getNickname(),
                     userInsertReq.getPassword(), userInsertReq.getRoleIds());
-            return Result.fail("新增用户已经存在");
+            return Result.fail("新增用户已经存在", null);
         }
 
         // 检查角色是否存在
@@ -58,7 +58,7 @@ public class UserController {
             if (!roleService.isExist(roleId)) {
                 log.error("新增用户的角色不存在 username:{} nickname:{} password:{} roleId:{}", userInsertReq.getStaffNo(), userInsertReq.getNickname(),
                         userInsertReq.getPassword(), roleId);
-                return Result.fail("新增用户的角色不存在");
+                return Result.fail("新增用户的角色不存在", null);
             }
         }
 
@@ -72,10 +72,10 @@ public class UserController {
 
         if (flag) {
             log.info("新增用户成功: {}", userInsertReq);
-            return Result.succ("新增用户成功");
+            return Result.succ("新增用户成功", null);
         } else {
             log.error("新增用户失败: {}", userInsertReq);
-            return Result.fail("新增用户失败");
+            return Result.fail("新增用户失败", null);
         }
     }
 
@@ -85,13 +85,13 @@ public class UserController {
         // 检查参数
         if (ObjectUtils.isEmpty(userDeleteReq.getId())) {
             log.error("删除用户参数为空 id:{}", userDeleteReq.getId());
-            return Result.fail("删除用户参数为空");
+            return Result.fail("删除用户参数为空", null);
         }
 
         // 检查待删除的用户是否存在
         if (!userService.isExist(userDeleteReq.getId())) {
             log.error("待删除的用户不存在 id:{}", userDeleteReq.getId());
-            return Result.fail("待删除的用户不存在");
+            return Result.fail("待删除的用户不存在", null);
         }
 
         // 删除用户
@@ -99,10 +99,10 @@ public class UserController {
 
         if (flag) {
             log.info("删除用户成功: {}", userDeleteReq);
-            return Result.succ("删除用户成功");
+            return Result.succ("删除用户成功", null);
         } else {
             log.error("删除用户失败: {}", userDeleteReq);
-            return Result.fail("删除用户失败");
+            return Result.fail("删除用户失败", null);
         }
     }
 
@@ -112,13 +112,13 @@ public class UserController {
         // 检查参数
         if (ObjectUtils.isEmpty(userUpdateNicknameReq.getId()) || StringUtils.isEmpty(userUpdateNicknameReq.getNickname())) {
             log.error("更新用户昵称参数为空 id:{} nickname:{}", userUpdateNicknameReq.getId(), userUpdateNicknameReq.getNickname());
-            return Result.fail("更新用户昵称参数为空");
+            return Result.fail("更新用户昵称参数为空", null);
         }
 
         // 通过id查询是否存在用户
         if (!userService.isExist(userUpdateNicknameReq.getId())) {
             log.error("更新用户昵称用户不存在 id:{} nickname:{}", userUpdateNicknameReq.getId(), userUpdateNicknameReq.getNickname());
-            return Result.fail("待更新的用户不存在");
+            return Result.fail("待更新的用户不存在", null);
         }
 
         // 更新用户昵称
@@ -126,10 +126,10 @@ public class UserController {
 
         if (flag) {
             log.info("更新用户昵称成功: {}", userUpdateNicknameReq);
-            return Result.succ("更新用户昵称成功");
+            return Result.succ("更新用户昵称成功", null);
         } else {
             log.error("更新用户昵称失败: {}", userUpdateNicknameReq);
-            return Result.fail("更新用户昵称失败");
+            return Result.fail("更新用户昵称失败", null);
         }
     }
 
@@ -139,13 +139,13 @@ public class UserController {
         // 检查参数
         if (ObjectUtils.isEmpty(userUpdatePasswordReq.getId()) || StringUtils.isEmpty(userUpdatePasswordReq.getPassword())) {
             log.error("更新用户密码参数为空 id:{} password:{}", userUpdatePasswordReq.getId(), userUpdatePasswordReq.getPassword());
-            return Result.fail("更新用户密码参数为空");
+            return Result.fail("更新用户密码参数为空", null);
         }
 
         // 通过id查询是否存在用户
         if (!userService.isExist(userUpdatePasswordReq.getId())) {
             log.error("更新用户密码用户不存在 id:{} nickname:{}", userUpdatePasswordReq.getId(), userUpdatePasswordReq.getPassword());
-            return Result.fail("待更新的用户不存在");
+            return Result.fail("待更新的用户不存在", null);
         }
 
         // 解码Base64加密的密码
@@ -158,10 +158,10 @@ public class UserController {
 
         if (flag) {
             log.info("更新用户密码成功: {}", userUpdatePasswordReq);
-            return Result.succ("更新用户密码成功");
+            return Result.succ("更新用户密码成功", null);
         } else {
             log.error("更新用户密码失败: {}", userUpdatePasswordReq);
-            return Result.fail("更新用户密码失败");
+            return Result.fail("更新用户密码失败", null);
         }
     }
 
@@ -171,20 +171,20 @@ public class UserController {
         // 参数检查
         if (ObjectUtils.isEmpty(userUpdateRolesReq.getId()) || ObjectUtils.isEmpty(userUpdateRolesReq.getRoleIds()) || userUpdateRolesReq.getRoleIds().isEmpty()) {
             log.error("更新用户角色参数为空 id:{} roleIds:{}", userUpdateRolesReq.getId(), userUpdateRolesReq.getRoleIds());
-            return Result.fail("更新用户角色参数为空");
+            return Result.fail("更新用户角色参数为空", null);
         }
 
         // 查看用户是否存在
         if (!userService.isExist(userUpdateRolesReq.getId())) {
             log.error("更新用户角色 用户不存在 id:{} roleIds:{}", userUpdateRolesReq.getId(), userUpdateRolesReq.getRoleIds());
-            return Result.fail("更新用户角色用户不存在");
+            return Result.fail("更新用户角色用户不存在", null);
         }
 
         // 查看角色是否存在
         for (Integer roleId : userUpdateRolesReq.getRoleIds()) {
             if (!roleService.isExist(roleId)) {
                 log.error("更新用户角色 角色不存在 id:{} roleId:{}", userUpdateRolesReq.getId(), roleId);
-                return Result.fail("更新用户角色 角色不存在");
+                return Result.fail("更新用户角色 角色不存在", null);
             }
         }
 
@@ -193,10 +193,10 @@ public class UserController {
 
         if (flag) {
             log.info("更新用户角色成功: {}", userUpdateRolesReq);
-            return Result.succ("更新用户角色成功");
+            return Result.succ("更新用户角色成功", null);
         } else {
             log.error("更新用户角色失败: {}", userUpdateRolesReq);
-            return Result.fail("更新用户角色失败");
+            return Result.fail("更新用户角色失败", null);
         }
     }
 
@@ -206,13 +206,13 @@ public class UserController {
         // 参数检查
         if (ObjectUtils.isEmpty(userGetByIdReq.getId())) {
             log.error("通过id获取用户参数为空 id:{}", userGetByIdReq.getId());
-            return Result.fail("通过id获取用户参数为空");
+            return Result.fail("通过id获取用户参数为空", null);
         }
 
         // 通过id查询是否存在用户
         if (!userService.isExist(userGetByIdReq.getId())) {
             log.error("通过id获取用户用户不存在 id:{}", userGetByIdReq.getId());
-            return Result.fail("待查询的用户不存在");
+            return Result.fail("待查询的用户不存在", null);
         }
 
         // 通过id获取用户
@@ -228,7 +228,7 @@ public class UserController {
         // 参数检查
         if (ObjectUtils.isEmpty(userGetPageReq.getPageNum()) || ObjectUtils.isEmpty(userGetPageReq.getPageSize())) {
             log.error("分页查询用户参数为空 pageNum:{} pageSize:{} nickname:{}", userGetPageReq.getPageNum(), userGetPageReq.getPageSize(), userGetPageReq.getNickname());
-            return Result.fail("分页查询用户参数为空");
+            return Result.fail("分页查询用户参数为空", null);
         }
 
         // 分页查询

@@ -39,25 +39,25 @@ public class JudgeQuestionController {
                 ObjectUtils.isEmpty(params.getScore())) {
             log.error("新增判断题参数为空 examId:{} question:{} answer:{} analysis:{} score:{}", params.getExamId(), params.getQuestion(),
                     params.getAnswer(), params.getAnalysis(), params.getScore());
-            return Result.fail("新增判断题参数为空");
+            return Result.fail("新增判断题参数为空", null);
         }
 
         // 判断分数是否符合逻辑
         if (params.getScore() < 0 || params.getScore() > 100) {
             log.error("新增判断题分数不合理 score:{}", params.getScore());
-            return Result.fail("新增判断题分数不合理");
+            return Result.fail("新增判断题分数不合理", null);
         }
 
         // 检查examId是否存在
         if (!examService.isExist(params.getExamId())) {
             log.error("新增判断题试卷不存在 examId:{}", params.getExamId());
-            return Result.fail("新增判断题试卷不存在");
+            return Result.fail("新增判断题试卷不存在", null);
         }
 
         // 根据examId和question判断是否已经存在
         if (judgeQuestionService.isExist(params.getExamId(), params.getQuestion())) {
             log.error("同套试卷下已经存在相同的判断题 examId:{} question:{}", params.getExamId(), params.getQuestion());
-            return Result.fail("同套试卷下已经存在相同的判断题");
+            return Result.fail("同套试卷下已经存在相同的判断题", null);
         }
 
         // 新增判断题
@@ -66,10 +66,10 @@ public class JudgeQuestionController {
 
         if (flag) {
             log.info("新增判断题成功: {}", params);
-            return Result.succ("新增判断题成功");
+            return Result.succ("新增判断题成功", null);
         } else {
             log.error("新增判断题失败: {}", params);
-            return Result.fail("新增判断题失败");
+            return Result.fail("新增判断题失败", null);
         }
     }
 
@@ -79,13 +79,13 @@ public class JudgeQuestionController {
         // 参数检查
         if (ObjectUtils.isEmpty(params.getId())) {
             log.error("删除判断题参数为空 id:{}", params.getId());
-            return Result.fail("删除判断题参数为空");
+            return Result.fail("删除判断题参数为空", null);
         }
 
         // 查看待删除的判断题是否存在
         if (!judgeQuestionService.isExist(params.getId())) {
             log.error("待删除判断题不存在 id:{}", params.getId());
-            return Result.fail("待删除判断题不存在");
+            return Result.fail("待删除判断题不存在", null);
         }
 
         // 删除判断题
@@ -93,10 +93,10 @@ public class JudgeQuestionController {
 
         if (flag) {
             log.info("删除判断题成功: {}", params);
-            return Result.succ("删除判断题成功");
+            return Result.succ("删除判断题成功", null);
         } else {
             log.error("删除判断题失败: {}", params);
-            return Result.fail("删除判断题失败");
+            return Result.fail("删除判断题失败", null);
         }
     }
 
@@ -108,31 +108,31 @@ public class JudgeQuestionController {
         StringUtils.isEmpty(params.getAnswer()) || StringUtils.isEmpty(params.getAnalysis()) || ObjectUtils.isEmpty(params.getScore())) {
             log.error("更新判断题参数为空 id:{} examId:{} question:{} answer:{} analysis:{} score:{}", params.getId(), params.getExamId(), params.getQuestion(),
                     params.getAnswer(), params.getAnalysis(), params.getScore());
-            return Result.fail("更新判断题参数为空");
+            return Result.fail("更新判断题参数为空", null);
         }
 
         // 判断分数是否符合逻辑
         if (params.getScore() < 0 || params.getScore() > 100) {
             log.error("更新判断题分数不合理 score:{}", params.getScore());
-            return Result.fail("更新判断题分数不合理");
+            return Result.fail("更新判断题分数不合理", null);
         }
 
         // 查看待更新的判断题是否存在
         if (!judgeQuestionService.isExist(params.getId())) {
             log.error("待更新判断题不存在 id:{}", params.getId());
-            return Result.fail("待更新判断题不存在");
+            return Result.fail("待更新判断题不存在", null);
         }
 
         // 检查examId是否存在
         if (!examService.isExist(params.getExamId())) {
             log.error("更新判断题试卷不存在 examId:{}", params.getExamId());
-            return Result.fail("更新判断题试卷不存在");
+            return Result.fail("更新判断题试卷不存在", null);
         }
 
         // 根据examId和question判断是否已经存在(除开自己)
         if (judgeQuestionService.isExist(params.getExamId(), params.getId(), params.getQuestion())) {
             log.error("同套试卷下已经存在相同的判断题 examId:{} question:{}", params.getExamId(), params.getQuestion());
-            return Result.fail("同套试卷下已经存在相同的判断题");
+            return Result.fail("同套试卷下已经存在相同的判断题", null);
         }
 
         // 更新判断题
@@ -141,10 +141,10 @@ public class JudgeQuestionController {
 
         if (flag) {
             log.info("更新判断题成功: {}", params);
-            return Result.succ("更新判断题成功");
+            return Result.succ("更新判断题成功", null);
         } else {
             log.error("更新判断题失败: {}", params);
-            return Result.fail("更新判断题失败");
+            return Result.fail("更新判断题失败", null);
         }
     }
 
@@ -154,13 +154,13 @@ public class JudgeQuestionController {
         // 参数检查
         if (ObjectUtils.isEmpty(params.getId())) {
             log.error("通过id获取判断题参数为空 id:{}", params.getId());
-            return Result.fail("通过id获取判断题参数为空");
+            return Result.fail("通过id获取判断题参数为空", null);
         }
 
         // 查看待更新的判断题是否存在
         if (!judgeQuestionService.isExist(params.getId())) {
             log.error("通过id获取判断题不存在 id:{}", params.getId());
-            return Result.fail("通过id获取判断题不存在");
+            return Result.fail("通过id获取判断题不存在", null);
         }
 
         // 通过id获取判断题
@@ -176,7 +176,7 @@ public class JudgeQuestionController {
         // 参数检查
         if (ObjectUtils.isEmpty(params.getExamId())) {
             log.error("获取所有判断题参数为空 examId:{}", params.getExamId());
-            return Result.fail("获取所有判断题参数为空");
+            return Result.fail("获取所有判断题参数为空", null);
         }
 
         // 获取所有判断题

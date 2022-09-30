@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxcia.pt.mapper.SelectQuestionMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert select_question(exam_id, question, answer_a, answer_b, answer_c, answer_d, answer, analysis)
+        values(#{examId}, #{question}, #{answerA}, #{answerB}, #{answerC}, #{answerD}, #{answer}, #{analysis});
+    </insert>
+
+    <select id="isExistById" resultType="java.lang.Boolean">
+        select count(1) from select_question where id = #{id} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByExamIdAndQuestion" resultType="java.lang.Boolean">
+        select count(1) from select_question where exam_id = #{examId} and question = #{question} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByNonIdAndExamIdQuestion" resultType="java.lang.Boolean">
+        select count(1) from select_question where id != #{id} and exam_id = #{examId} and question = #{question} and is_deleted = 0;
+    </select>
+
+    <update id="delete">
+        update select_question set is_deleted = 1 where id = #{id} and is_deleted = 0;
+    </update>
+
+    <update id="update">
+        update select_question set exam_id = #{examId}, question = #{question}, answer_a = #{answerA}, answer_b = #{answerB},
+        answer_c = #{answerC}, answer_d = #{answerD}, answer = #{answer}, analysis = #{analysis} where id = #{id} and is_deleted = 0;
+    </update>
+
+    <select id="getById" resultType="SelectQuestion">
+        select sq.id as id, sq.exam_id as exam_id, e.name as exam_name, sq.question as question, sq.answer_a as answer_a,
+        sq.answer_b as answer_b, sq.answer_c as answer_c, sq.answer_d as answer_d, sq.answer as answer, sq.analysis as analysis,
+        sq.score as score, sq.updated_at as updated_at, sq.is_deleted as is_deleted from select_question sq
+        left join exam e on sq.exam_id = e.id
+        where sq.id = #{id} and sq.is_deleted = 0 and e.is_deleted = 0;
+    </select>
+
+    <select id="getAll" resultType="SelectQuestion">
+        select sq.id as id, sq.exam_id as exam_id, e.name as exam_name, sq.question as question, sq.answer_a as answer_a,
+        sq.answer_b as answer_b, sq.answer_c as answer_c, sq.answer_d as answer_d, sq.answer as answer, sq.analysis as analysis,
+        sq.score as score, sq.updated_at as updated_at, sq.is_deleted as is_deleted from select_question sq
+        left join exam e on sq.exam_id = e.id
+        <where>
+            sq.is_deleted = 0 and e.is_deleted = 0 and sq.exam_id = #{examId}
+            <if test="question != null and question != ''">
+                and sq.question like '%${question}%'
+            </if>
+            order by sq.updated_at desc
+        </where>
+    </select>
+
+</mapper>

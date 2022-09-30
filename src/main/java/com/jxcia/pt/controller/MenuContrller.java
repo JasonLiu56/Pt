@@ -39,20 +39,20 @@ public class MenuContrller {
         // 参数检查
         if (StringUtils.isEmpty(menuInsertReq.getPattern()) || ObjectUtils.isEmpty(menuInsertReq.getRoleIds()) || menuInsertReq.getRoleIds().isEmpty()) {
             log.error("新增菜单参数为空 pattern:{} roleIds:{}", menuInsertReq.getPattern(), menuInsertReq.getRoleIds());
-            return Result.fail("新增菜单参数为空");
+            return Result.fail("新增菜单参数为空", null);
         }
 
         // 判断路由是否已存在
         if (menuService.isExist(menuInsertReq.getPattern())) {
             log.error("新增菜单已存在 pattern:{} roleIds: {}", menuInsertReq.getPattern(), menuInsertReq.getRoleIds());
-            return Result.fail("新增菜单已存在");
+            return Result.fail("新增菜单已存在", null);
         }
 
         // 判断roleIds是否都存在
         for (Integer roleId : menuInsertReq.getRoleIds()) {
             if (!roleService.isExist(roleId)) {
                 log.error("新增菜单角色id不存在 roleId:{}", roleId);
-                return Result.fail("新增菜单角色id不存在");
+                return Result.fail("新增菜单角色id不存在", null);
             }
         }
 
@@ -67,10 +67,10 @@ public class MenuContrller {
 
         if (flag) {
             log.info("新增菜单成功: {}", menuInsertReq);
-            return Result.succ("新增菜单成功");
+            return Result.succ("新增菜单成功", null);
         } else {
             log.error("新增菜单失败: {}", menuInsertReq);
-            return Result.fail("新增菜单失败");
+            return Result.fail("新增菜单失败", null);
         }
     }
 
@@ -80,13 +80,13 @@ public class MenuContrller {
         // 参数检查
         if (ObjectUtils.isEmpty(menuDeleteReq.getId())) {
             log.error("删除菜单参数为空 id:{}", menuDeleteReq.getId());
-            return Result.fail("删除菜单参数为空");
+            return Result.fail("删除菜单参数为空", null);
         }
 
         // 待删除的菜单是否存在
         if (!menuService.isExist(menuDeleteReq.getId())) {
             log.error("待删除的菜单不存在 id:{}", menuDeleteReq.getId());
-            return Result.fail("待删除的菜单不存在");
+            return Result.fail("待删除的菜单不存在", null);
         }
 
         // 删除菜单
@@ -101,10 +101,10 @@ public class MenuContrller {
 
         if (flag) {
             log.info("删除菜单成功: {}", menuDeleteReq);
-            return Result.succ("删除菜单成功");
+            return Result.succ("删除菜单成功", null);
         } else {
             log.error("删除菜单失败: {}", menuDeleteReq);
-            return Result.fail("删除菜单失败");
+            return Result.fail("删除菜单失败", null);
         }
     }
 
@@ -115,26 +115,26 @@ public class MenuContrller {
         if (ObjectUtils.isEmpty(menuUpdateReq.getId()) || StringUtils.isEmpty(menuUpdateReq.getPattern()) || ObjectUtils.isEmpty(menuUpdateReq.getRoleIds())
         || menuUpdateReq.getRoleIds().isEmpty()) {
             log.error("更新菜单参数为空 id:{} pattern: {} roleIds: {}", menuUpdateReq.getId(), menuUpdateReq.getPattern(), menuUpdateReq.getRoleIds());
-            return Result.fail("更新菜单参数为空");
+            return Result.fail("更新菜单参数为空", null);
         }
 
         // 检查待更新的菜单是否存在(通过id)
         if (!menuService.isExist(menuUpdateReq.getId())) {
             log.error("待更新菜单不存在 id:{} pattern: {} roleIds: {}", menuUpdateReq.getId(), menuUpdateReq.getPattern(), menuUpdateReq.getRoleIds());
-            return Result.fail("待更新菜单不存在");
+            return Result.fail("待更新菜单不存在", null);
         }
 
         // 检查pattern是否存在(除开自己)
         if (menuService.isExist(menuUpdateReq.getId(), menuUpdateReq.getPattern())) {
             log.error("待更新菜单已经存在 id:{} pattern: {} roleIds: {}", menuUpdateReq.getId(), menuUpdateReq.getPattern(), menuUpdateReq.getRoleIds());
-            return Result.fail("待更新菜单已经存在");
+            return Result.fail("待更新菜单已经存在", null);
         }
 
         // 检查roleId是否存在
         for (Integer roleId : menuUpdateReq.getRoleIds()) {
             if (!roleService.isExist(roleId)) {
                 log.error("更新菜单 角色不存在 roleId:{}", roleId);
-                return Result.fail("更新菜单 角色不存在");
+                return Result.fail("更新菜单 角色不存在", null);
             }
         }
 
@@ -149,10 +149,10 @@ public class MenuContrller {
 
         if (flag) {
             log.info("更新菜单成功: {}", menuUpdateReq);
-            return Result.succ("更新菜单成功");
+            return Result.succ("更新菜单成功", null);
         } else {
             log.error("更新菜单失败: {}", menuUpdateReq);
-            return Result.fail("更新菜单失败");
+            return Result.fail("更新菜单失败", null);
         }
     }
 
@@ -163,13 +163,13 @@ public class MenuContrller {
         // 参数检查
         if (ObjectUtils.isEmpty(menuGetByIdReq.getId())) {
             log.error("通过id获取菜单参数为空 id:{}", menuGetByIdReq.getId());
-            return Result.fail("通过id获取菜单参数为空");
+            return Result.fail("通过id获取菜单参数为空", null);
         }
 
         // 判断id是否存在
         if (!menuService.isExist(menuGetByIdReq.getId())) {
             log.error("通过id获取菜单不存在 id:{}", menuGetByIdReq.getId());
-            return Result.fail("通过id获取菜单不存在");
+            return Result.fail("通过id获取菜单不存在", null);
         }
 
         // 通过id获取菜单

@@ -13,9 +13,23 @@ import java.util.Date;
 @NoArgsConstructor
 public class SelectQuestion {
 
+    public SelectQuestion(Integer examId, String question, String answerA, String answerB, String answerC, String answerD, String answer, String analysis, Integer score) {
+        this.examId = examId;
+        this.question = question;
+        this.answerA = answerA;
+        this.answerB = answerB;
+        this.answerC = answerC;
+        this.answerD = answerD;
+        this.answer = answer;
+        this.analysis = analysis;
+        this.score = score;
+    }
+
     private Integer id;
 
     private Integer examId;
+
+    private String examName;
 
     private String question;
 

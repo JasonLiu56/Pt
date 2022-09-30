@@ -32,14 +32,14 @@ public class VideoController {
                 ObjectUtils.isEmpty(videoInsertReq.getChapterId())) {
             log.error("新增视频参数为空 name:{} description:{} chatperId:{}", videoInsertReq.getName(), videoInsertReq.getDescription(),
                     videoInsertReq.getChapterId());
-            return Result.fail("新增视频参数为空");
+            return Result.fail("新增视频参数为空", null);
         }
 
         // 查看同一章节下是否存在同名的视频
         if (videoService.isExist(videoInsertReq.getChapterId(), videoInsertReq.getName())) {
             log.error("同一章节下存在同名的视频 name:{} description:{} chapterId:{}", videoInsertReq.getName(), videoInsertReq.getDescription(),
                     videoInsertReq.getChapterId());
-            return Result.fail("同一章节下存在同名的视频");
+            return Result.fail("同一章节下存在同名的视频", null);
         }
 
         // 新增视频
@@ -47,10 +47,10 @@ public class VideoController {
 
         if (flag) {
             log.info("新增视频成功");
-            return Result.succ("新增视频成功");
+            return Result.succ("新增视频成功", null);
         } else {
             log.error("新增视频失败");
-            return Result.fail("新增视频失败");
+            return Result.fail("新增视频失败", null);
         }
     }
 
@@ -60,13 +60,13 @@ public class VideoController {
         // 参数检查
         if (ObjectUtils.isEmpty(videoDeleteReq.getId())) {
             log.error("删除视频信息参数为空 id:{}", videoDeleteReq.getId());
-            return Result.fail("删除视频信息参数为空");
+            return Result.fail("删除视频信息参数为空", null);
         }
 
         // 通过id查看视频信息是否存在
         if (!videoService.isExist(videoDeleteReq.getId())) {
             log.error("待删除视频信息不存在");
-            return Result.fail("待删除视频信息不存在");
+            return Result.fail("待删除视频信息不存在", null);
         }
 
         // 删除视频信息
@@ -74,10 +74,10 @@ public class VideoController {
 
         if (flag) {
             log.info("删除视频成功");
-            return Result.succ("删除视频成功");
+            return Result.succ("删除视频成功", null);
         } else {
             log.error("删除视频失败");
-            return Result.fail("删除视频失败");
+            return Result.fail("删除视频失败", null);
         }
     }
 
@@ -89,19 +89,19 @@ public class VideoController {
                 StringUtils.isEmpty(videoUpdateReq.getName()) || StringUtils.isEmpty(videoUpdateReq.getDescription())) {
             log.error("更新视频信息参数为空 id:{} chapterId:{} name:{} description:{}", videoUpdateReq.getId(), videoUpdateReq.getChapterId(),
                     videoUpdateReq.getName(), videoUpdateReq.getDescription());
-            return Result.fail("更新视频参数为空");
+            return Result.fail("更新视频参数为空", null);
         }
 
         // 检查待更新的视频信息是否存在
         if (!videoService.isExist(videoUpdateReq.getId())) {
             log.error("待更新的视频信息不存在 id:{}", videoUpdateReq.getId());
-            return Result.fail("待更新的视频信息不存在");
+            return Result.fail("待更新的视频信息不存在", null);
         }
 
         // 检查同一章节下是否存在同名除开自己的视频信息
         if (videoService.isExist(videoUpdateReq.getId(), videoUpdateReq.getChapterId(), videoUpdateReq.getDescription())) {
             log.error("更新的视频信息名称已经存在");
-            return Result.fail("更新的视频信息名称已经存在");
+            return Result.fail("更新的视频信息名称已经存在", null);
         }
 
         // 更新视频信息
@@ -109,10 +109,10 @@ public class VideoController {
 
         if (flag) {
             log.info("更新视频成功");
-            return Result.succ("更新视频成功");
+            return Result.succ("更新视频成功", null);
         } else {
             log.error("更新视频失败");
-            return Result.fail("更新视频失败");
+            return Result.fail("更新视频失败", null);
         }
     }
 
@@ -122,13 +122,13 @@ public class VideoController {
         // 参数检查
         if (ObjectUtils.isEmpty(videoGetByIdReq.getId())) {
             log.error("根据id获取视频信息参数为空 id:{}", videoGetByIdReq.getId());
-            return Result.fail("根据id获取视频信息参数为空");
+            return Result.fail("根据id获取视频信息参数为空", null);
         }
 
         // 查看视频信息是否存在
         if (!videoService.isExist(videoGetByIdReq.getId())) {
             log.error("根据id获取视频信息不存在");
-            return Result.fail("根据id获取视频信息不存在");
+            return Result.fail("根据id获取视频信息不存在", null);
         }
 
         // 根据id获取视频信息
@@ -144,7 +144,7 @@ public class VideoController {
         // 参数检查
         if (ObjectUtils.isEmpty(videoGetAllReq.getChapterId())) {
             log.error("获取所有视频信息参数为空 id:{}", videoGetAllReq.getChapterId());
-            return Result.fail("获取所有视频信息参数为空");
+            return Result.fail("获取所有视频信息参数为空", null);
         }
 
         // 获取所有视频信息
@@ -159,13 +159,13 @@ public class VideoController {
     public Result upload(@RequestParam("id") Integer id, @RequestParam("videoFile") MultipartFile videoFile) throws Exception {
         if (ObjectUtils.isEmpty(videoFile) || ObjectUtils.isEmpty(id)) {
             log.error("上传视频参数为空 id:{} videoFile:{}", id, videoFile.getOriginalFilename());
-            return Result.fail("上传视频参数为空");
+            return Result.fail("上传视频参数为空", null);
         }
 
         // 通过id检查视频信息是否存在
         if (!videoService.isExist(id)) {
             log.error("待上传的视频信息不存在 id:{}", id);
-            return Result.fail("待上传的视频信息不存在");
+            return Result.fail("待上传的视频信息不存在", null);
         }
 
         // 更新
@@ -173,10 +173,10 @@ public class VideoController {
 
         if (flag) {
             log.info("上传视频成功");
-            return Result.succ("上传视频成功");
+            return Result.succ("上传视频成功", null);
         } else {
             log.error("上传视频失败");
-            return Result.fail("上传视频失败");
+            return Result.fail("上传视频失败", null);
         }
     }
 

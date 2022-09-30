@@ -37,13 +37,13 @@ public class CategoryController {
         // 参数检查
         if (StringUtils.isEmpty(categoryInsertReq.getName())) {
             log.error("新增分类参数为空 name:{}", categoryInsertReq.getName());
-            return Result.fail("新增分类参数为空");
+            return Result.fail("新增分类参数为空", null);
         }
 
         // 检查是否存在同名的分类
         if (categoryService.isExist(categoryInsertReq.getName())) {
             log.error("新增分类已经存在 name:{}", categoryInsertReq.getName());
-            return Result.fail("新增分类已经存在");
+            return Result.fail("新增分类已经存在", null);
         }
 
         // 新增分类
@@ -51,10 +51,10 @@ public class CategoryController {
 
         if (flag) {
             log.info("新增分类成功: {}", categoryInsertReq);
-            return Result.succ("新增分类成功");
+            return Result.succ("新增分类成功", null);
         } else {
             log.error("新增分类失败: {}", categoryInsertReq);
-            return Result.fail("新增分类失败");
+            return Result.fail("新增分类失败", null);
         }
     }
 
@@ -64,19 +64,19 @@ public class CategoryController {
         // 参数检查
         if (ObjectUtils.isEmpty(categoryDeleteReq.getId())) {
             log.error("删除分类参数为空 id:{}", categoryDeleteReq.getId());
-            return Result.fail("删除分类参数为空");
+            return Result.fail("删除分类参数为空", null);
         }
 
         // 查看分类是否存在
         if (!categoryService.isExist(categoryDeleteReq.getId())) {
             log.error("待删除分类不存在 id:{}", categoryDeleteReq.getId());
-            return Result.fail("待删除分类不存在");
+            return Result.fail("待删除分类不存在", null);
         }
 
         // 查看分类下是否存在课程
         if (!courseService.isEmpty(categoryDeleteReq.getId())) {
             log.error("待删除的分类课程不为空 id:{}", categoryDeleteReq.getId());
-            return Result.fail("待删除的分类课程不为空");
+            return Result.fail("待删除的分类课程不为空", null);
         }
 
         // 删除分类
@@ -84,10 +84,10 @@ public class CategoryController {
 
         if (flag) {
             log.info("删除分类成功: {}", categoryDeleteReq);
-            return Result.succ("删除分类成功");
+            return Result.succ("删除分类成功", null);
         } else {
             log.error("删除分类失败: {}", categoryDeleteReq);
-            return Result.fail("删除分类失败");
+            return Result.fail("删除分类失败", null);
         }
     }
 
@@ -97,19 +97,19 @@ public class CategoryController {
         // 参数检查
         if (ObjectUtils.isEmpty(categoryUpdateReq.getId()) || StringUtils.isEmpty(categoryUpdateReq.getName())) {
             log.error("更新分类参数为空 id:{} name:{}", categoryUpdateReq.getId(), categoryUpdateReq.getName());
-            return Result.fail("更新分类参数为空");
+            return Result.fail("更新分类参数为空", null);
         }
 
         // 查看分类是否存在
         if (!categoryService.isExist(categoryUpdateReq.getId())) {
             log.error("待更新分类不存在 id:{}", categoryUpdateReq.getId());
-            return Result.fail("待更新分类不存在");
+            return Result.fail("待更新分类不存在", null);
         }
 
         // 根据id和name判断是否存在除开自己的同名分类
         if (categoryService.isExist(categoryUpdateReq.getId(), categoryUpdateReq.getName())) {
             log.error("更新分类名称已存在 id:{}", categoryUpdateReq.getId());
-            return Result.fail("更新分类名称已存在");
+            return Result.fail("更新分类名称已存在", null);
         }
 
         // 更新分类
@@ -117,10 +117,10 @@ public class CategoryController {
 
         if (flag) {
             log.info("更新分类成功: {}", categoryUpdateReq);
-            return Result.succ("更新分类成功");
+            return Result.succ("更新分类成功", null);
         } else {
             log.error("更新分类失败: {}", categoryUpdateReq);
-            return Result.fail("更新分类失败");
+            return Result.fail("更新分类失败", null);
         }
     }
 
@@ -130,13 +130,13 @@ public class CategoryController {
         // 参数检查
         if (ObjectUtils.isEmpty(categoryGetByIdReq.getId())) {
             log.error("通过id获取分类参数为空 id:{}", categoryGetByIdReq.getId());
-            return Result.fail("通过id获取分类参数为空");
+            return Result.fail("通过id获取分类参数为空", null);
         }
 
         // 查看是否存在
         if (!categoryService.isExist(categoryGetByIdReq.getId())) {
             log.error("通过id获取分类不存在");
-            return Result.fail("通过id获取分类不存在");
+            return Result.fail("通过id获取分类不存在", null);
         }
 
         // 通过id获取分类
@@ -153,7 +153,7 @@ public class CategoryController {
         // 参数检查
         if (ObjectUtils.isEmpty(categoryGetByPageReq.getPageNum()) || ObjectUtils.isEmpty(categoryGetByPageReq.getPageSize())) {
             log.error("分页获取分类参数为空 pageNum:{} pageSize:{}", categoryGetByPageReq.getPageNum(), categoryGetByPageReq.getPageSize());
-            return Result.fail("分页获取分类参数为空");
+            return Result.fail("分页获取分类参数为空", null);
         }
 
         // 分页查询

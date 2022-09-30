@@ -33,13 +33,13 @@ public class ExamController {
         // 参数检查
         if (StringUtils.isEmpty(examInsertReq.getName()) || StringUtils.isEmpty(examInsertReq.getDescription())) {
             log.error("新增考试参数为空 name:{} description:{}", examInsertReq.getName(), examInsertReq.getDescription());
-            return Result.fail("新增考试参数为空");
+            return Result.fail("新增考试参数为空", null);
         }
 
         // 检查是否存在同名的考试
         if (examService.isExist(examInsertReq.getName())) {
             log.error("新增考试名称已存在 name:{} description:{}", examInsertReq.getName(), examInsertReq.getDescription());
-            return Result.fail("新增考试名称已存在");
+            return Result.fail("新增考试名称已存在",null);
         }
 
         // 新增考试
@@ -47,10 +47,10 @@ public class ExamController {
 
         if (flag) {
             log.info("新增考试成功: {}", examInsertReq);
-            return Result.succ("新增考试成功");
+            return Result.succ("新增考试成功", null);
         } else {
             log.error("新增考试失败: {}", examInsertReq);
-            return Result.fail("新增考试失败");
+            return Result.fail("新增考试失败", null);
         }
     }
 
@@ -60,13 +60,13 @@ public class ExamController {
         // 参数检查
         if (ObjectUtils.isEmpty(examDeleteReq.getId())) {
             log.error("删除考试参数为空 id:{}", examDeleteReq.getId());
-            return Result.fail("删除考试参数为空");
+            return Result.fail("删除考试参数为空", null);
         }
 
         // 判断待删除的考试是否存在
         if (!examService.isExist(examDeleteReq.getId())) {
             log.error("待删除考试不存在 id:{}", examDeleteReq.getId());
-            return Result.fail("待删除考试不存在");
+            return Result.fail("待删除考试不存在", null);
         }
 
         // 删除考试
@@ -74,10 +74,10 @@ public class ExamController {
 
         if (flag) {
             log.info("删除考试成功: {}", examDeleteReq);
-            return Result.succ("删除考试成功");
+            return Result.succ("删除考试成功", null);
         } else {
             log.error("删除考试失败: {}", examDeleteReq);
-            return Result.fail("删除考试失败");
+            return Result.fail("删除考试失败", null);
         }
     }
 
@@ -90,19 +90,19 @@ public class ExamController {
                 StringUtils.isEmpty(examUpdateReq.getDescription())) {
             log.error("更新考试参数为空 id:{} name:{} description:{}", examUpdateReq.getId(), examUpdateReq.getName(),
                     examUpdateReq.getDescription());
-            return Result.fail("更新考试参数为空");
+            return Result.fail("更新考试参数为空", null);
         }
 
         // 检查待更新的考试是否存在
         if (!examService.isExist(examUpdateReq.getId())) {
             log.error("待更新的考试不存在 id:{}", examUpdateReq.getId());
-            return Result.fail("待更新的考试不存在");
+            return Result.fail("待更新的考试不存在", null);
         }
 
         // 检查是否存在同名的考试(除开自己)
         if (examService.isExist(examUpdateReq.getId(), examUpdateReq.getName())) {
             log.error("待更新的考试名称已存在 id:{} name:{}", examUpdateReq.getId(), examUpdateReq.getName());
-            return Result.fail("待更新的考试名称已存在");
+            return Result.fail("待更新的考试名称已存在", null);
         }
 
         // 更新考试
@@ -110,10 +110,10 @@ public class ExamController {
 
         if (flag) {
             log.info("更新考试成功: {}", examUpdateReq);
-            return Result.succ("更新考试成功");
+            return Result.succ("更新考试成功", null);
         } else {
             log.error("更新考试失败: {}", examUpdateReq);
-            return Result.fail("更新考试失败");
+            return Result.fail("更新考试失败", null);
         }
     }
 
@@ -123,13 +123,13 @@ public class ExamController {
         // 参数检查
         if (ObjectUtils.isEmpty(examGetByIdReq.getId())) {
             log.error("通过id查询考试参数为空 id:{}", examGetByIdReq.getId());
-            return Result.fail("通过id查询考试参数为空");
+            return Result.fail("通过id查询考试参数为空", null);
         }
 
         // 通过id查看考试是否存在
         if (!examService.isExist(examGetByIdReq.getId())) {
             log.error("待查询的考试不存在 id:{}", examGetByIdReq.getId());
-            return Result.fail("待查询的考试不存在");
+            return Result.fail("待查询的考试不存在", null);
         }
 
         // 通过id查询考试
@@ -145,7 +145,7 @@ public class ExamController {
         // 参数检查
         if (ObjectUtils.isEmpty(examGetByPageReq.getPageNum()) || ObjectUtils.isEmpty(examGetByPageReq.getPageSize())) {
             log.error("分页查询考试参数为空 pageNum:{} pageSize:{}", examGetByPageReq.getPageNum(), examGetByPageReq.getPageSize());
-            return Result.fail("分页查询考试参数为空");
+            return Result.fail("分页查询考试参数为空", null);
         }
 
         // 分页查询

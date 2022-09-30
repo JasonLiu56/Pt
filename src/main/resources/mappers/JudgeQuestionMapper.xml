@@ -29,21 +29,23 @@
     </update>
 
     <select id="getById" resultType="JudgeQuestion">
-        select id, exam_id, question, answer, analysis, score, updated_at, is_deleted
-        from judge_question
-        where id = #{id} and is_deleted = 0;
+        select jq.id as id, jq.exam_id as exam_id, e.name as exam_name, jq.question as question, jq.answer as answer,
+        jq.analysis as analysis, jq.score as score, jq.updated_at as updated_at, jq.is_deleted as is_deleted
+        from judge_question jq left join exam e on jq.exam_id = e.id
+        where jq.id = #{id} and jq.is_deleted = 0 and e.is_deleted = 0;
     </select>
 
     <select id="getAll" resultType="JudgeQuestion">
-        select id, exam_id, question, answer, analysis, score, updated_at, is_deleted
-        from judge_question
+        select jq.id as id, jq.exam_id as exam_id, e.name as exam_name, jq.question as question, jq.answer as answer,
+        jq.analysis as analysis, jq.score as score, jq.updated_at as updated_at, jq.is_deleted as is_deleted
+        from judge_question jq left join exam e on jq.exam_id = e.id
         <where>
-            exam_id = #{examId} and is_deleted = 0
+            jq.exam_id = #{examId} and jq.is_deleted = 0 and e.is_deleted = 0
             <if test="question != null and question != ''">
-                and question like '%${question}%'
+                and jq.question like '%${question}%'
             </if>
         </where>
-        order by updated_at desc
+        order by jq.updated_at desc
     </select>
 
 </mapper>
