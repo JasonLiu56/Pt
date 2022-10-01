@@ -194,16 +194,31 @@ create table select_question (
     index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;
 
-
-# 问题结果
-create table question_res (
+# 测试
+create table quiz (
     id int(11) not null primary key auto_increment,
     exam_id int(11) not null,
-    question_id int(11) not null,
-    res varchar(255) not null,
+    uid int(11) not null,
+    total_score int(2) default 0,
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
     index exam_id_index (exam_id),
+    index uid_index (uid),
+    index is_deleted_index (is_deleted)
+)engine=InnoDB default charset=utf8;
+
+
+# 问题结果
+create table quiz_question (
+    id int(11) not null primary key auto_increment,
+    exam_id int(11) not null,
+    quiz_id int(11) not null,
+    question_id int(11) not null,
+    answer varchar(255) not null,
+    updated_at datetime not null default now(),
+    is_deleted tinyint(1) default 0,
+    index exam_id_index (exam_id),
+    index quiz_id_index (quiz_id),
     index question_id_index (question_id),
     index is_deleted_index (is_deleted)
 )engine=InnoDB default charset=utf8;

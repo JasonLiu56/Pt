@@ -6,12 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class JudgeQuestion {
+public class JudgeQuestion implements Serializable {
 
     public JudgeQuestion(Integer examId, String question, String answer, String analysis, Integer score) {
         this.question = question;

@@ -12,17 +12,15 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category implements Serializable {
+public class QuizQuestion implements Serializable {
 
-    public Category(String name) {
-        this.name = name;
-    }
-
-    // 分类id
     private Integer id;
 
-    // 分类名称
-    private String name;
+    private Integer examId;
+
+    private Integer questionId;
+
+    private String res;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;

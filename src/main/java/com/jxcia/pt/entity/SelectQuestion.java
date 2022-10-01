@@ -6,12 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SelectQuestion {
+public class SelectQuestion implements Serializable {
 
     public SelectQuestion(Integer examId, String question, String answerA, String answerB, String answerC, String answerD, String answer, String analysis, Integer score) {
         this.examId = examId;
