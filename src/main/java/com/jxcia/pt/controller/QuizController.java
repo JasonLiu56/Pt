@@ -51,14 +51,18 @@ public class QuizController {
             return Result.fail("新增测验试卷不存在");
         }
 
+        // 获取uid
+//        Integer uid = Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
+        Integer uid = params.getUid();
+
         // 检查uid是否存在
         if (!userService.isExist(params.getUid())) {
-            log.error("新增测验用户不存在 uid:{}", params.getUid());
+            log.error("新增测验用户不存在 uid:{}", uid);
             return Result.fail("新增测验用户不存在");
         }
 
         // 新增测验
-        Boolean flag = quizService.insert(params.getExamId(), params.getUid());
+        Boolean flag = quizService.insert(params.getExamId(), uid);
 
         if (flag) {
             log.info("新增测验成功: {}", params);

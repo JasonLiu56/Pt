@@ -32,6 +32,12 @@ public class JudgeQuestionServiceImpl implements JudgeQuestionService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isExist(Integer id, Integer examId) {
+        return judgeQuestionMapper.isExistByIdAndExamId(id, examId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Boolean isExist(Integer examId, String question) {
         return judgeQuestionMapper.isExistByExamIdAndQuestion(examId, question);
     }

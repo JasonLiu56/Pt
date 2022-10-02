@@ -32,6 +32,12 @@ public class FillQuestionServiceImpl implements FillQuestionService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isExist(Integer id, Integer examId) {
+        return fillQuestionMapper.isExistByIdAndExamId(id, examId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Boolean isExist(Integer examId, String question) {
         return fillQuestionMapper.isExistByExamIdAndQuestion(examId, question);
     }

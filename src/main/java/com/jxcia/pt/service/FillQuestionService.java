@@ -13,6 +13,9 @@ public interface FillQuestionService {
     // 根据id查看FillQuestion是否存在
     Boolean isExist(Integer id);
 
+    // 根据examId和id查找是否存在
+    Boolean isExist(Integer id, Integer examId);
+
     // 根据examId和question查看FillQuestion是否存在
     Boolean isExist(Integer examId, String question);
 

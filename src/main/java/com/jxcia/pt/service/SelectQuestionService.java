@@ -14,6 +14,9 @@ public interface SelectQuestionService {
     // 通过id查看是否存在
     Boolean isExist(Integer id);
 
+    // 通过id和examId查看是否存在
+    Boolean isExist(Integer id, Integer examId);
+
     // 通过examId和question查看是否存在
     Boolean isExist(Integer examId, String question);
 

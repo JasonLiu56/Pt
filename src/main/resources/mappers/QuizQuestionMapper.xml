@@ -1,0 +1,38 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jxcia.pt.mapper.QuizQuestionMapper">
+
+    <insert id="insert">
+        insert quiz_question(exam_id, quiz_id, question_id, answer, score, question_type) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.examId}, #{item.quizId}, #{item.questionId}, #{item.answer}, #{item.score}, #{item.questionType})
+        </foreach>
+    </insert>
+
+    <select id="getAllFillQuestion" resultType="com.jxcia.pt.dto.vo.QuizFillQuestionVo">
+        select qq.id as id, qq.exam_id as exam_id, qq.quiz_id as quiz_id, qq.question_id as question_id, qq.answer as answer, qq.score as score,
+        qq.updated_at as updated_at, qq.is_deleted as is_deleted,
+        fq.question as question, fq.answer as right_answer, fq.analysis as analysis, fq.score as src_score
+        from quiz_question qq left join fill_question fq on qq.question_id = fq.id left join quiz qz on qq.quiz_id = qz.id
+        where qq.is_deleted = 0 and fq.is_deleted = 0 and qz.is_deleted = 0 and qq.quiz_id = #{quizId} and qq.question_type = 1;
+    </select>
+
+    <select id="getAllJudgeQuestion" resultType="com.jxcia.pt.dto.vo.QuizJudgeQuestionVo">
+        select qq.id as id, qq.exam_id as exam_id, qq.quiz_id as quiz_id, qq.question_id as question_id, qq.answer as answer, qq.score as score,
+        qq.updated_at as updated_at, qq.is_deleted as is_deleted,
+        jq.question as question, jq.answer as right_answer, jq.analysis as analysis, jq.score as src_score
+        from quiz_question qq left join judge_question jq on qq.question_id = jq.id left join quiz qz on qq.quiz_id = qz.id
+        where qq.is_deleted = 0 and jq.is_deleted = 0 and qz.is_deleted = 0 and qq.quiz_id = #{quizId} and qq.question_type = 2;
+    </select>
+
+    <select id="getAllSelectQuestion" resultType="com.jxcia.pt.dto.vo.QuizSelectQuestionVo">
+        select qq.id as id, qq.exam_id as exam_id, qq.quiz_id as quiz_id, qq.question_id as question_id, qq.answer as answer, qq.score as score,
+        sq.answer_a as answer_a, sq.answer_b as answer_b, sq.answer_c as answer_c, sq.answer_d as answer_d,
+        qq.updated_at as updated_at, qq.is_deleted as is_deleted,
+        sq.question as question, sq.answer as right_answer, sq.analysis as analysis, sq.score as src_score
+        from quiz_question qq left join select_question sq on qq.question_id = sq.id left join quiz qz on qq.quiz_id = qz.id
+        where qq.is_deleted = 0 and sq.is_deleted = 0 and qz.is_deleted = 0 and qq.quiz_id = #{quizId} and qq.question_type = 3;
+    </select>
+
+</mapper>

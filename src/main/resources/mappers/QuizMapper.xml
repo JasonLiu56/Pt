@@ -19,6 +19,10 @@
         update quiz set is_deleted = 1 where id = #{id} and uid = #{uid} and is_deleted = 0;
     </update>
 
+    <update id="update">
+        update quiz set total_score = #{totalScore} where id = #{id} and is_deleted = 0;
+    </update>
+
     <select id="getById" resultType="Quiz">
         select q.id as id, q.exam_id as exam_id, e.name as exam_name, q.uid as uid, q.total_score as total_score,
         q.updated_at as updated_at, q.is_deleted as is_deleted

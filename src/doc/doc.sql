@@ -215,6 +215,8 @@ create table quiz_question (
     quiz_id int(11) not null,
     question_id int(11) not null,
     answer varchar(255) not null,
+    score int(2) not null,
+    question_type int(2) not null,
     updated_at datetime not null default now(),
     is_deleted tinyint(1) default 0,
     index exam_id_index (exam_id),

@@ -15,6 +15,9 @@ public interface FillQuestionMapper {
     // 根据id查看FillQuestion是否存在
     Boolean isExistById(@Param("id") Integer id);
 
+    // 根据id和examId查看是否存在
+    Boolean isExistByIdAndExamId(@Param("id") Integer id, @Param("examId") Integer examId);
+
     // 根据examId和question查看FillQuestion是否存在
     Boolean isExistByExamIdAndQuestion(@Param("examId") Integer examId, @Param("question") String question);
 

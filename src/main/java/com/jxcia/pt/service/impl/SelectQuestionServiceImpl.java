@@ -32,6 +32,12 @@ public class SelectQuestionServiceImpl implements SelectQuestionService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isExist(Integer id, Integer examId) {
+        return selectQuestionMapper.isExistByIdAndExamId(id, examId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Boolean isExist(Integer examId, String question) {
         return selectQuestionMapper.isExistByExamIdAndQuestion(examId, question);
     }

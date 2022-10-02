@@ -20,6 +20,10 @@
         select count(1) from select_question where id != #{id} and exam_id = #{examId} and question = #{question} and is_deleted = 0;
     </select>
 
+    <select id="isExistByIdAndExamId" resultType="java.lang.Boolean">
+        select count(1) from select_question where id = #{id} and exam_id = #{examId} and is_deleted = 0;
+    </select>
+
     <update id="delete">
         update select_question set is_deleted = 1 where id = #{id} and is_deleted = 0;
     </update>

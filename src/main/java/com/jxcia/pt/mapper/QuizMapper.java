@@ -21,6 +21,9 @@ public interface QuizMapper {
     // 删除
     Boolean delete(@Param("id") Integer id, @Param("uid") Integer uid);
 
+    // 更新总分
+    Boolean update(@Param("id") Integer id, @Param("totalScore") Integer totalScore);
+
     // 通过id获取Quiz
     Quiz getById(@Param("id") Integer id, @Param("uid") Integer uid);
 

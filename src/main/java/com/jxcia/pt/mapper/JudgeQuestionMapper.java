@@ -15,6 +15,9 @@ public interface JudgeQuestionMapper {
     // 通过id查询是否存在
     Boolean isExistById(@Param("id") Integer id);
 
+    // 通过id和examId查询是否存在
+    Boolean isExistByIdAndExamId(@Param("id") Integer id, @Param("examId") Integer examId);
+
     // 通过examId和question查询是否存在
     Boolean isExistByExamIdAndQuestion(@Param("examId") Integer examId, @Param("question") String question);
 

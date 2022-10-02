@@ -12,6 +12,9 @@ public interface JudgeQuestionService {
     // 通过id查询是否存在
     Boolean isExist(Integer id);
 
+    // 通过id和examId判断
+    Boolean isExist(Integer id, Integer examId);
+
     // 通过examId和question查询是否存在
     Boolean isExist(Integer examId, String question);
 
