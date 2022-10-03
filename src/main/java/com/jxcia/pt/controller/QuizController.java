@@ -1,10 +1,7 @@
 package com.jxcia.pt.controller;
 
 import com.jxcia.pt.common.Result;
-import com.jxcia.pt.dto.req.QuizDeleteReq;
-import com.jxcia.pt.dto.req.QuizGetAllReq;
-import com.jxcia.pt.dto.req.QuizGetByIdReq;
-import com.jxcia.pt.dto.req.QuizInsertReq;
+import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.dto.vo.PageVo;
 import com.jxcia.pt.entity.Quiz;
 import com.jxcia.pt.service.ExamService;
@@ -178,7 +175,7 @@ public class QuizController {
 
     @ApiOperation(value = "获取所有测验")
     @PostMapping("/getByPage")
-    public Result getAll(@RequestBody QuizGetAllReq params) throws Exception {
+    public Result getAll(@RequestBody QuizGetByPageReq params) throws Exception {
         // 参数检查
         if (ObjectUtils.isEmpty(params.getPageNum()) || ObjectUtils.isEmpty(params.getPageSize())) {
             log.error("获取所有测验参数为空 pageNum:{} pageSize:{}", params.getPageNum(), params.getPageSize());
@@ -198,10 +195,42 @@ public class QuizController {
             return Result.fail("请登录");
         }
 
+        // 检查uid是否存在
+        if (!userService.isExist(uid)) {
+            log.error("获取所有测验用户不存在 uid:{}", uid);
+            return Result.fail("获取所有测验用户不存在");
+        }
+
         // 获取所有测验
         List<Quiz> quizs = quizService.getByPage(params.getPageNum(), params.getPageSize(), uid, params.getExamName());
         // 获取分页统计总数
         Integer total = quizService.countByPage(uid, params.getExamName());
+        // 分页vo
+        PageVo pageVo = new PageVo(total, quizs);
+        log.info("获取所有测验 total:{} quizs:{}", total, quizs);
+
+        return Result.succ(pageVo);
+    }
+
+    @ApiOperation(value = "教师获取所有测验")
+    @PostMapping("/getByPageTeacher")
+    public Result getAll(@RequestBody QuizGetByPageTeacherReq params) throws Exception {
+        // 参数检查
+        if (ObjectUtils.isEmpty(params.getUid())) {
+            log.error("教师获取所有测验参数为空 uid:{}", params.getUid());
+            return Result.fail("教师获取所有测验参数为空");
+        }
+
+        // 检查uid是否存在
+        if (!userService.isExist(params.getUid())) {
+            log.error("新增测验用户不存在 uid:{}", params.getUid());
+            return Result.fail("新增测验用户不存在");
+        }
+
+        // 获取所有测验
+        List<Quiz> quizs = quizService.getByPage(params.getPageNum(), params.getPageSize(), params.getUid(), params.getExamName());
+        // 获取分页统计总数
+        Integer total = quizService.countByPage(params.getUid(), params.getExamName());
         // 分页vo
         PageVo pageVo = new PageVo(total, quizs);
         log.info("获取所有测验 total:{} quizs:{}", total, quizs);

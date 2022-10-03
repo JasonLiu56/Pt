@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "获取所有测验请求体")
-public class QuizGetAllReq extends PageReq {
-
+@ApiModel(value = "教师获取所有测验请求体")
+public class QuizGetByPageTeacherReq extends PageReq {
 
     @ApiModelProperty(value = "用户id", notes = "用户id")
     private Integer uid;
