@@ -59,37 +59,96 @@ create table user_role (
 
 # 插入数据
 BEGIN;
-INSERT INTO menu(id, pattern) VALUES (1, '/admin/*');
-INSERT INTO menu(id, pattern) VALUES (2, '/user/*');
-INSERT INTO menu(id, pattern) VALUES (3, '/guest/*');
+INSERT INTO menu(id, pattern) VALUES (1, '/admin/**');
+INSERT INTO menu(id, pattern) VALUES (2, '/menu/**');
+INSERT INTO menu(id, pattern) VALUES (3, '/role/**');
+INSERT INTO menu(id, pattern) VALUES (4, '/user/**');
+
+INSERT INTO menu(id, pattern) VALUES (5, '/category/**');
+INSERT INTO menu(id, pattern) VALUES (6, '/course/**');
+INSERT INTO menu(id, pattern) VALUES (7, '/chapter/**');
+INSERT INTO menu(id, pattern) VALUES (8, '/video/**');
+INSERT INTO menu(id, pattern) VALUES (9, '/exam/**');
+INSERT INTO menu(id, pattern) VALUES (10, '/question/fill/**');
+INSERT INTO menu(id, pattern) VALUES (11, '/question/judge/**');
+INSERT INTO menu(id, pattern) VALUES (12, '/question/select/**');
+
+INSERT INTO menu(id, pattern) VALUES (13, '/quiz/**');
+INSERT INTO menu(id, pattern) VALUES (14, '/quiz/question/**');
+INSERT INTO menu(id, pattern) VALUES (15, '/my/**');
+INSERT INTO menu(id, pattern) VALUES (16, '/category/getById');
+INSERT INTO menu(id, pattern) VALUES (17, '/category/getByPage');
+INSERT INTO menu(id, pattern) VALUES (18, '/course/getById');
+INSERT INTO menu(id, pattern) VALUES (19, '/course/getByPage');
+INSERT INTO menu(id, pattern) VALUES (20, '/chapter/getById');
+INSERT INTO menu(id, pattern) VALUES (21, '/chapter/getAll');
+INSERT INTO menu(id, pattern) VALUES (22, '/video/getById');
+INSERT INTO menu(id, pattern) VALUES (23, '/video/getAll');
+INSERT INTO menu(id, pattern) VALUES (24, '/exam/getById');
+INSERT INTO menu(id, pattern) VALUES (25, '/exam/getByPage');
+INSERT INTO menu(id, pattern) VALUES (26, '/question/fill/getById');
+INSERT INTO menu(id, pattern) VALUES (27, '/question/fill/getAll');
+INSERT INTO menu(id, pattern) VALUES (28, '/question/judge/getById');
+INSERT INTO menu(id, pattern) VALUES (29, '/question/judge/getAll');
+INSERT INTO menu(id, pattern) VALUES (30, '/question/select/getById');
+INSERT INTO menu(id, pattern) VALUES (31, '/question/select/getAll');
+COMMIT;
+
+BEGIN;
+INSERT INTO role(id, name, name_zh) VALUES (1, 'ROLE_ADMIN', '系统管理员');
+INSERT INTO role(id, name, name_zh) VALUES (2, 'ROLE_TEACHER', '教师');
+INSERT INTO role(id, name, name_zh) VALUES (3, 'ROLE_STUDENT', '学生');
 COMMIT;
 
 BEGIN;
 INSERT INTO menu_role(id, mid, rid) VALUES (1, 1, 1);
-INSERT INTO menu_role(id, mid, rid) VALUES (2, 2, 2);
-INSERT INTO menu_role(id, mid, rid) VALUES (3, 3, 3);
-INSERT INTO menu_role(id, mid, rid) VALUES (4, 3, 2);
+INSERT INTO menu_role(id, mid, rid) VALUES (2, 2, 1);
+INSERT INTO menu_role(id, mid, rid) VALUES (3, 3, 1);
+INSERT INTO menu_role(id, mid, rid) VALUES (4, 4, 1);
+
+INSERT INTO menu_role(id, mid, rid) VALUES (5, 5, 2);
+INSERT INTO menu_role(id, mid, rid) VALUES (6, 6, 2);
+INSERT INTO menu_role(id, mid, rid) VALUES (7, 7, 2);
+INSERT INTO menu_role(id, mid, rid) VALUES (8, 8, 2);
+INSERT INTO menu_role(id, mid, rid) VALUES (9, 9, 2);
+INSERT INTO menu_role(id, mid, rid) VALUES (10, 10, 2);
+INSERT INTO menu_role(id, mid, rid) VALUES (11, 11, 2);
+INSERT INTO menu_role(id, mid, rid) VALUES (12, 12, 2);
+
+
+INSERT INTO menu_role(id, mid, rid) VALUES (13, 13, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (14, 14, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (15, 15, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (16, 16, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (17, 17, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (18, 18, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (19, 19, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (20, 20, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (21, 21, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (22, 22, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (23, 23, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (24, 24, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (25, 25, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (26, 26, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (27, 27, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (28, 28, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (29, 29, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (30, 30, 3);
+INSERT INTO menu_role(id, mid, rid) VALUES (31, 31, 3);
 COMMIT;
 
-BEGIN;
-INSERT INTO role(id, name, name_zh) VALUES (1, 'ADMIN', '系统管理员');
-INSERT INTO role(id, name, name_zh) VALUES (2, 'USER', '普通⽤户');
-INSERT INTO role(id, name, name_zh) VALUES (3, 'GUEST', '游客');
-COMMIT;
 
 BEGIN;
-INSERT INTO user (id, username, nickname, password) VALUES (1, '10000', 'admin', '{noop}123');
-INSERT INTO user (id, username, nickname, password) VALUES (2, '20000', 'user', '{noop}123');
-INSERT INTO user (id, username, nickname, password) VALUES (3, '20220102001', 'blr', '{noop}123');
+INSERT INTO user (id, username, nickname, password) VALUES (1, '10000', '超级管理员', '{bcrypt}$2a$10$mlIJkmRorJqTQWXRsJGsue2txTvx9UPq0hRGlnBaqBUGCoZShCJpa');
+INSERT INTO user (id, username, nickname, password) VALUES (2, '20000', '教师1', '{bcrypt}$2a$10$mlIJkmRorJqTQWXRsJGsue2txTvx9UPq0hRGlnBaqBUGCoZShCJpa');
+INSERT INTO user (id, username, nickname, password) VALUES (3, '202207101', '学生1', '{bcrypt}$2a$10$mlIJkmRorJqTQWXRsJGsue2txTvx9UPq0hRGlnBaqBUGCoZShCJpa');
 COMMIT;
 
 BEGIN;
 INSERT INTO user_role(id, uid, rid) VALUES (1, 1, 1);
-INSERT INTO user_role(id, uid, rid) VALUES (2, 1, 2);
-INSERT INTO user_role(id, uid, rid) VALUES (3, 2, 2);
-INSERT INTO user_role(id, uid, rid) VALUES (4, 3, 3);
+INSERT INTO user_role(id, uid, rid) VALUES (2, 2, 2);
+INSERT INTO user_role(id, uid, rid) VALUES (3, 3, 3);
 COMMIT;
-
 
 # 分类
 create table category (

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/my/quiz")
+@RequestMapping("/quiz")
 @Slf4j
 @Api(tags = "测验模块", value = "测验模块", description="测验模块接口")
 public class QuizController {

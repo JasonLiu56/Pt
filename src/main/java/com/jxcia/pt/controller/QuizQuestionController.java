@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/my/quiz/question")
+@RequestMapping("/quiz/question")
 @Slf4j
 @Api(tags = "测验题目模块", value = "测验题目模块", description="测验题目模块接口")
 public class QuizQuestionController {
