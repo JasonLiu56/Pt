@@ -15,7 +15,4 @@ public class QuizInsertReq {
     @ApiModelProperty(value = "试卷id", notes = "试卷id")
     private Integer examId;
 
-    @ApiModelProperty(value = "用户id", notes = "用户id")
-    private Integer uid;
-
 }

@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,8 +53,23 @@ public class QuizQuestionController {
     @PostMapping("/insert")
     public Result insert(@RequestBody QuizQuestionBatchInsertReq params) throws Exception {
         // 获取uid
-//        Integer uid = Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
-        Integer uid = params.getUid();
+        Integer uid = null;
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!StringUtils.isEmpty(userId)) {
+            uid = Integer.valueOf(userId);
+        }
+
+        // 判断uid是否为空
+        if (ObjectUtils.isEmpty(uid)) {
+            log.error("请登录");
+            return Result.fail("请登录");
+        }
+
+        // 判断参数是否为空
+        if (ObjectUtils.isEmpty(params.getQuizQuestionInsertReqs()) || params.getQuizQuestionInsertReqs().isEmpty()) {
+            log.error("新增测验题目参数为空");
+            return Result.fail("新增测验题目参数为空");
+        }
 
         for (QuizQuestionInsertReq quizQuestionInsertReq : params.getQuizQuestionInsertReqs()) {
             // 参数校验
@@ -120,8 +136,17 @@ public class QuizQuestionController {
     @PostMapping("/getByQuizId")
     public Result getByQuizId(@RequestBody QuizQuestionGetByQuizIdReq params) throws Exception {
         // 获取uid
-//        Integer uid = Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
-        Integer uid = params.getUid();
+        Integer uid = null;
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!StringUtils.isEmpty(userId)) {
+            uid = Integer.valueOf(userId);
+        }
+
+        // 判断uid是否为空
+        if (ObjectUtils.isEmpty(uid)) {
+            log.error("请登录");
+            return Result.fail("请登录");
+        }
 
         if (ObjectUtils.isEmpty(params.getQuizId())) {
             log.error("根据quizId获取测验题目参数为空 quizId:{}", params.getQuizId());

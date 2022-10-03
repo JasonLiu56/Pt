@@ -15,7 +15,4 @@ public class QuizDeleteReq {
     @ApiModelProperty(value = "测验id", notes = "测验id")
     private Integer id;
 
-    @ApiModelProperty(value = "用户id", notes = "用户id")
-    private Integer uid;
-
 }

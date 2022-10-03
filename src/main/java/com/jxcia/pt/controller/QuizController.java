@@ -3,17 +3,21 @@ package com.jxcia.pt.controller;
 import com.jxcia.pt.common.Result;
 import com.jxcia.pt.dto.req.QuizDeleteReq;
 import com.jxcia.pt.dto.req.QuizGetAllReq;
+import com.jxcia.pt.dto.req.QuizGetByIdReq;
 import com.jxcia.pt.dto.req.QuizInsertReq;
 import com.jxcia.pt.dto.vo.PageVo;
 import com.jxcia.pt.entity.Quiz;
 import com.jxcia.pt.service.ExamService;
 import com.jxcia.pt.service.QuizService;
 import com.jxcia.pt.service.UserService;
+import com.jxcia.pt.utils.RedisUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +40,15 @@ public class QuizController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     @ApiOperation(value = "新增测验")
     @PostMapping("/insert")
     public Result insert(@RequestBody QuizInsertReq params) throws Exception {
         // 参数检查
-        if (ObjectUtils.isEmpty(params.getExamId()) || ObjectUtils.isEmpty(params.getUid())) {
-            log.error("新增测验参数为空 examId:{} uid:{}", params.getExamId(), params.getUid());
+        if (ObjectUtils.isEmpty(params.getExamId())) {
+            log.error("新增测验参数为空 examId:{}", params.getExamId());
             return Result.fail("新增测验参数为空", null);
         }
 
@@ -52,11 +59,20 @@ public class QuizController {
         }
 
         // 获取uid
-//        Integer uid = Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
-        Integer uid = params.getUid();
+        Integer uid = null;
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!StringUtils.isEmpty(userId)) {
+            uid = Integer.valueOf(userId);
+        }
+
+        // 判断uid是否为空
+        if (ObjectUtils.isEmpty(uid)) {
+            log.error("请登录");
+            return Result.fail("请登录");
+        }
 
         // 检查uid是否存在
-        if (!userService.isExist(params.getUid())) {
+        if (!userService.isExist(uid)) {
             log.error("新增测验用户不存在 uid:{}", uid);
             return Result.fail("新增测验用户不存在");
         }
@@ -89,8 +105,17 @@ public class QuizController {
         }
 
         // 获取uid
-//        Integer uid = Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
-        Integer uid = params.getUid();
+        Integer uid = null;
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!StringUtils.isEmpty(userId)) {
+            uid = Integer.valueOf(userId);
+        }
+
+        // 判断uid是否为空
+        if (ObjectUtils.isEmpty(uid)) {
+            log.error("请登录");
+            return Result.fail("请登录");
+        }
 
         // 查询id examId uid是否存在
         if (!quizService.isExist(params.getId(), uid)) {
@@ -112,7 +137,7 @@ public class QuizController {
 
     @ApiOperation(value = "通过id获取测验")
     @PostMapping("/getById")
-    public Result getById(@RequestBody QuizDeleteReq params) throws Exception {
+    public Result getById(@RequestBody QuizGetByIdReq params) throws Exception {
         // 参数检查
         if (ObjectUtils.isEmpty(params.getId())) {
             log.error("通过id获取测验为空 id:{}", params.getId());
@@ -126,8 +151,17 @@ public class QuizController {
         }
 
         // 获取uid
-//        Integer uid = Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
-        Integer uid = params.getUid();
+        Integer uid = null;
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!StringUtils.isEmpty(userId)) {
+            uid = Integer.valueOf(userId);
+        }
+
+        // 判断uid是否为空
+        if (ObjectUtils.isEmpty(uid)) {
+            log.error("请登录");
+            return Result.fail("请登录");
+        }
 
         // 根据id uid查询是否存在
         if (!quizService.isExist(params.getId(), uid)) {
@@ -143,7 +177,7 @@ public class QuizController {
     }
 
     @ApiOperation(value = "获取所有测验")
-    @PostMapping("/getAll")
+    @PostMapping("/getByPage")
     public Result getAll(@RequestBody QuizGetAllReq params) throws Exception {
         // 参数检查
         if (ObjectUtils.isEmpty(params.getPageNum()) || ObjectUtils.isEmpty(params.getPageSize())) {
@@ -152,8 +186,17 @@ public class QuizController {
         }
 
         // 获取uid
-//        Integer uid = Integer.valueOf(SecurityContextHolder.getContext().getAuthentication().getName());
-        Integer uid = params.getUid();
+        Integer uid = null;
+        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (!StringUtils.isEmpty(userId)) {
+            uid = Integer.valueOf(userId);
+        }
+
+        // 判断uid是否为空
+        if (ObjectUtils.isEmpty(uid)) {
+            log.error("请登录");
+            return Result.fail("请登录");
+        }
 
         // 获取所有测验
         List<Quiz> quizs = quizService.getByPage(params.getPageNum(), params.getPageSize(), uid, params.getExamName());
