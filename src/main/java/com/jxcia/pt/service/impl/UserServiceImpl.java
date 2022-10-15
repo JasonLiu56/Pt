@@ -78,6 +78,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    public Boolean changePassword(String username, String password) {
+        return userMapper.changePassword(username, password);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public Boolean updateRoles(Integer id, List<Integer> roleIds) {
         // 删除原来用户角色
         Boolean flag = userMapper.deleteUserRole(id);
@@ -93,6 +99,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public User getById(Integer id) {
         return userMapper.findById(id);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public User getByUsername(String username) {
+        return userMapper.findByUsername(username);
     }
 
     @Override

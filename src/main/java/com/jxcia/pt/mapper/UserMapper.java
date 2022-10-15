@@ -33,8 +33,14 @@ public interface UserMapper {
     // 更新密码
     Boolean updatePassword(@Param("id") Integer id, @Param("password") String password);
 
+    // 更换密码
+    Boolean changePassword(@Param("username") String username, @Param("password") String password);
+
     // 通过id查找
     User findById(@Param("id") Integer id);
+
+    // 通过username查找
+    User findByUsername(@Param("username") String username);
 
     // 通过条件查询分页查询
     List<User> findByPage(@Param("nickname") String nickname);

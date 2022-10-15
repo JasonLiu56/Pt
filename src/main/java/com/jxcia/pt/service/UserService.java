@@ -24,11 +24,17 @@ public interface UserService {
     // 更新密码
     Boolean updatePassword(Integer id, String password);
 
+    // 修改密码
+    Boolean changePassword(String username, String password);
+
     // 更新用户角色
     Boolean updateRoles(Integer id, List<Integer> roleIds);
 
     // 通过id查找
     User getById(Integer id);
+
+    // 通过username查找
+    User getByUsername(String username);
 
     // 通过条件查询分页查询
     List<User> getByPage(Integer pageNum, Integer pageSize, String nickname);

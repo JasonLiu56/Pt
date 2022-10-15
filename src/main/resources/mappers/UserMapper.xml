@@ -54,11 +54,22 @@
         update user set password = #{password} where id = #{id} and is_deleted = 0;
     </update>
 
+    <update id="changePassword">
+        update user set password = #{password} where username = #{username} and is_deleted = 0;
+    </update>
+
     <select id="findById" resultMap="UserResultMap">
         select u.id, u.username, u.nickname, u.password, u.enabled, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.updated_at, u.is_deleted,
         r.id as r_id, r.name as r_name, r.name_zh as r_name_zh, r.updated_at as r_updated_at, r.is_deleted as r_is_deleted
         from user u left join user_role ur on u.id = ur.uid left join role r on r.id = ur.rid
         where u.id = #{id} and u.is_deleted = 0 and ur.is_deleted = 0 and r.is_deleted = 0;
+    </select>
+
+    <select id="findByUsername" resultMap="UserResultMap">
+        select u.id, u.username, u.nickname, u.password, u.enabled, u.account_non_expired, u.account_non_locked, u.credentials_non_expired, u.updated_at, u.is_deleted,
+        r.id as r_id, r.name as r_name, r.name_zh as r_name_zh, r.updated_at as r_updated_at, r.is_deleted as r_is_deleted
+        from user u left join user_role ur on u.id = ur.uid left join role r on r.id = ur.rid
+        where u.username = #{username} and u.is_deleted = 0 and ur.is_deleted = 0 and r.is_deleted = 0;
     </select>
 
     <select id="findByPage" resultMap="UserResultMap">
