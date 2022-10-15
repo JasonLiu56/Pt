@@ -24,6 +24,9 @@ public interface SelectQuestionMapper {
     // 通过examId和question查看是否存在(除开自己)
     Boolean isExistByNonIdAndExamIdQuestion(@Param("examId") Integer examId, @Param("id") Integer id, @Param("question") String question);
 
+    // 通过examId查看是否存在
+    Boolean isExistByExamId(@Param("examId") Integer examId);
+
     // 删除
     Boolean delete(@Param("id") Integer id);
 

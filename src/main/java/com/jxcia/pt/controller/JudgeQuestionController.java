@@ -5,6 +5,7 @@ import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.entity.JudgeQuestion;
 import com.jxcia.pt.service.ExamService;
 import com.jxcia.pt.service.JudgeQuestionService;
+import com.jxcia.pt.service.QuizQuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class JudgeQuestionController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private QuizQuestionService quizQuestionService;
 
     @ApiOperation(value = "新增判断题")
     @PostMapping("/insert")
@@ -86,6 +90,12 @@ public class JudgeQuestionController {
         if (!judgeQuestionService.isExist(params.getId())) {
             log.error("待删除判断题不存在 id:{}", params.getId());
             return Result.fail("待删除判断题不存在", null);
+        }
+
+        // 查看测验题是否还存在
+        if (quizQuestionService.isExistByJudgeQuestionId(params.getId())) {
+            log.error("待删除判断题还存在测验题目 id:{}", params.getId());
+            return Result.fail("待删除判断题还存在测验题目", null);
         }
 
         // 删除判断题

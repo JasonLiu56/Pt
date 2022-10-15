@@ -18,6 +18,9 @@ public interface QuizMapper {
     // 通过examId和uid判断是否已经存在
     Boolean isExistByIdAndUid(@Param("id") Integer id, @Param("uid") Integer uid);
 
+    // 通过examId查看是否为空
+    Boolean isExistByExamId(@Param("examId") Integer examId);
+
     // 删除
     Boolean delete(@Param("id") Integer id, @Param("uid") Integer uid);
 

@@ -88,6 +88,36 @@ public class QuizQuestionServiceImpl implements QuizQuestionService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isEmpty(Integer examId) {
+        return quizQuestionMapper.isExistByExamId(examId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isExistByQuizId(Integer quizId) {
+        return quizQuestionMapper.isExistByQuizId(quizId);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isExistByFillQuestionId(Integer fillQuestionId) {
+        return quizQuestionMapper.isExistByQuestionId(fillQuestionId, QuizQuestion.fillQuestion);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isExistByJudgeQuestionId(Integer judgeQuestionId) {
+        return quizQuestionMapper.isExistByQuestionId(judgeQuestionId, QuizQuestion.judgeQuestion);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isExistBySelectQuestionId(Integer selectQuestionId) {
+        return quizQuestionMapper.isExistByQuestionId(selectQuestionId, QuizQuestion.selectQuestion);
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
     public List<QuizFillQuestionVo> getAllFillQuestion(Integer quizId) {
         return quizQuestionMapper.getAllFillQuestion(quizId);
     }

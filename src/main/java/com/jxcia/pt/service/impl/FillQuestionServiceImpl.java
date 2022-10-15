@@ -49,6 +49,12 @@ public class FillQuestionServiceImpl implements FillQuestionService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isEmpty(Integer examId) {
+        return !fillQuestionMapper.isExistByExamId(examId);
+    }
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean delete(Integer id) {
         return fillQuestionMapper.delete(id);

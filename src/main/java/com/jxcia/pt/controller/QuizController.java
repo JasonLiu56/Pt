@@ -5,6 +5,7 @@ import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.dto.vo.PageVo;
 import com.jxcia.pt.entity.Quiz;
 import com.jxcia.pt.service.ExamService;
+import com.jxcia.pt.service.QuizQuestionService;
 import com.jxcia.pt.service.QuizService;
 import com.jxcia.pt.service.UserService;
 import com.jxcia.pt.utils.RedisUtil;
@@ -36,6 +37,9 @@ public class QuizController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private QuizQuestionService quizQuestionService;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -99,6 +103,12 @@ public class QuizController {
         if (!quizService.isExist(params.getId())) {
             log.error("待删除测验不存在 id:{}", params.getId());
             return Result.fail("待删除测验不存在");
+        }
+
+        // 通过quizId查看quizQuestion是否存在
+        if (quizQuestionService.isExistByQuizId(params.getId())) {
+            log.error("待删除测验还存在测验题目 quizId:{}", params.getId());
+            return Result.fail("待删除测验还存在测验题目");
         }
 
         // 获取uid

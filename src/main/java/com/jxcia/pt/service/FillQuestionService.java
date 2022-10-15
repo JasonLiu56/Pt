@@ -22,6 +22,9 @@ public interface FillQuestionService {
     // 根据examId和question查看FillQuestion是否存在(除开自己本身)
     Boolean isExist(Integer id, Integer examId, String question);
 
+    // 根据examId查看是否为空
+    Boolean isEmpty(Integer examId);
+
     // 删除
     Boolean delete(Integer id);
 

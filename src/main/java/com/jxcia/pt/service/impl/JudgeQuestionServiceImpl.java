@@ -49,6 +49,12 @@ public class JudgeQuestionServiceImpl implements JudgeQuestionService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isEmpty(Integer examId) {
+        return !judgeQuestionMapper.isExistByExamId(examId);
+    }
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean delete(Integer id) {
         return judgeQuestionMapper.delete(id);

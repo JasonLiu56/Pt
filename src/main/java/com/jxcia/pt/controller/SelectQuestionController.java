@@ -4,6 +4,7 @@ import com.jxcia.pt.common.Result;
 import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.entity.SelectQuestion;
 import com.jxcia.pt.service.ExamService;
+import com.jxcia.pt.service.QuizQuestionService;
 import com.jxcia.pt.service.SelectQuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +30,9 @@ public class SelectQuestionController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private QuizQuestionService quizQuestionService;
 
     @ApiOperation(value = "新增选择题")
     @PostMapping("/insert")
@@ -87,6 +91,12 @@ public class SelectQuestionController {
         if (!selectQuestionService.isExist(params.getId())) {
             log.error("待删除的选择题不存在 id:{}", params.getId());
             return Result.fail("待删除的选择题不存在");
+        }
+
+        // 判断是否还存在测验题
+        if (quizQuestionService.isExistBySelectQuestionId(params.getId())) {
+            log.error("待删除选择题还存在测验题目 id:{}", params.getId());
+            return Result.fail("待删除选择题还存在测验题目", null);
         }
 
         // 删除选择器

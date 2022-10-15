@@ -4,7 +4,7 @@ import com.jxcia.pt.common.Result;
 import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.dto.vo.PageVo;
 import com.jxcia.pt.entity.Exam;
-import com.jxcia.pt.service.ExamService;
+import com.jxcia.pt.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +26,21 @@ public class ExamController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private QuizService quizService;
+
+    @Autowired
+    private FillQuestionService fillQuestionService;
+
+    @Autowired
+    private JudgeQuestionService judgeQuestionService;
+
+    @Autowired
+    private SelectQuestionService selectQuestionService;
+
+    @Autowired
+    private QuizQuestionService quizQuestionService;
 
     @ApiOperation(value = "新增考试")
     @PostMapping("/insert")
@@ -67,6 +82,36 @@ public class ExamController {
         if (!examService.isExist(examDeleteReq.getId())) {
             log.error("待删除考试不存在 id:{}", examDeleteReq.getId());
             return Result.fail("待删除考试不存在", null);
+        }
+
+        // 判断考试下是否存在quiz
+        if (quizService.isEmpty(examDeleteReq.getId())) {
+            log.error("待删除考试下测验不为空 examId:{}", examDeleteReq.getId());
+            return Result.fail("待删除考试下测验不为空");
+        }
+
+        // 查看是否存在填空题
+        if (fillQuestionService.isEmpty(examDeleteReq.getId())) {
+            log.error("待删除考试下填空题不为空 examId:{}", examDeleteReq.getId());
+            return Result.fail("待删除考试下填空题不为空");
+        }
+
+        // 查看是否存在判断题
+        if (judgeQuestionService.isEmpty(examDeleteReq.getId())) {
+            log.error("待删除考试下判断题不为空 examId:{}", examDeleteReq.getId());
+            return Result.fail("待删除考试下判断题不为空");
+        }
+
+        // 查看是否存在选择题
+        if (selectQuestionService.isEmpty(examDeleteReq.getId())) {
+            log.error("待删除考试下选择题不为空 examId:{}", examDeleteReq.getId());
+            return Result.fail("待删除考试下选择题不为空");
+        }
+
+        // 查看是否存在测验题目
+        if (quizQuestionService.isEmpty(examDeleteReq.getId())) {
+            log.error("待删除考试下测验题不为空 examId:{}", examDeleteReq.getId());
+            return Result.fail("待删除考试下测验题不为空");
         }
 
         // 删除考试

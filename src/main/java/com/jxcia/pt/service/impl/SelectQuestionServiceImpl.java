@@ -49,6 +49,12 @@ public class SelectQuestionServiceImpl implements SelectQuestionService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isEmpty(Integer examId) {
+        return !selectQuestionMapper.isExistByExamId(examId);
+    }
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean delete(Integer id) {
         return selectQuestionMapper.delete(id);

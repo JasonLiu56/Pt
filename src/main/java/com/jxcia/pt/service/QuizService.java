@@ -15,6 +15,9 @@ public interface QuizService {
     // 根据examId和uid判断是否存在
     Boolean isExist(Integer id, Integer uid);
 
+    // 根据examId查看是否为空
+    Boolean isEmpty(Integer examId);
+
     // 删除
     Boolean delete(Integer id, Integer uid);
 

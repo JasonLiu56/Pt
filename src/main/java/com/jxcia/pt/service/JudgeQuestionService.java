@@ -21,6 +21,9 @@ public interface JudgeQuestionService {
     // 通过examId和question查询是否存在(除开自己)
     Boolean isExist(Integer examId, Integer id, String question);
 
+    // 通过examId判断是否为空
+    Boolean isEmpty(Integer examId);
+
     // 删除
     Boolean delete(Integer id);
 

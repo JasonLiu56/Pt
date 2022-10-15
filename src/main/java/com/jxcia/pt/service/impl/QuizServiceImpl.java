@@ -38,6 +38,12 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Boolean isEmpty(Integer examId) {
+        return !quizMapper.isExistByExamId(examId);
+    }
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Boolean delete(Integer id, Integer uid) {
         return quizMapper.delete(id, uid);

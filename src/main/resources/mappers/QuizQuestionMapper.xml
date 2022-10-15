@@ -10,6 +10,18 @@
         </foreach>
     </insert>
 
+    <select id="isExistByExamId" resultType="java.lang.Boolean">
+        select count(1) from quiz_question where exam_id = #{examId} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByQuestionId" resultType="java.lang.Boolean">
+        select count(1) from quiz_question where question_id = #{questionId} and question_type = #{questionType} and is_deleted = 0;
+    </select>
+
+    <select id="isExistByQuizId" resultType="java.lang.Boolean">
+        select count(1) from quiz_question where quiz_id = #{quizId} and is_deleted = 0;
+    </select>
+
     <select id="getAllFillQuestion" resultType="com.jxcia.pt.dto.vo.QuizFillQuestionVo">
         select qq.id as id, qq.exam_id as exam_id, qq.quiz_id as quiz_id, qq.question_id as question_id, qq.answer as answer, qq.score as score,
         qq.updated_at as updated_at, qq.is_deleted as is_deleted,

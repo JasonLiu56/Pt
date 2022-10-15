@@ -5,6 +5,7 @@ import com.jxcia.pt.dto.req.*;
 import com.jxcia.pt.entity.FillQuestion;
 import com.jxcia.pt.service.ExamService;
 import com.jxcia.pt.service.FillQuestionService;
+import com.jxcia.pt.service.QuizQuestionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class FillQuestionController {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private QuizQuestionService quizQuestionService;
 
     @ApiOperation(value = "新增填空题")
     @PostMapping("/insert")
@@ -87,6 +91,12 @@ public class FillQuestionController {
         if (!fillQuestionService.isExist(fillQuestionDeleteReq.getId())) {
             log.error("待删除填空题不存在 id:{}", fillQuestionDeleteReq.getId());
             return Result.fail("待删除填空题不存在", null);
+        }
+
+        // 查看待删除的题目是否存在测验题目
+        if (quizQuestionService.isExistByFillQuestionId(fillQuestionDeleteReq.getId())) {
+            log.error("待删除填空题还存在测验题目 id:{}", fillQuestionDeleteReq.getId());
+            return Result.fail("待删除填空题还存在测验题目", null);
         }
 
         // 删除填空题
